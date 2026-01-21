@@ -52,6 +52,7 @@ The versions listed below are available:
 | Version | Note |
 | --- | --- |
 | **Valkey 8** |  |
+| 8.1.4 |  |
 | 8.0.2 |  |
 | **Redis 7** | New cache support ended |
 | 7.2.6 |  |
@@ -437,7 +438,9 @@ If a failure is detected through failure detection, one of the read replica node
 The IP information of connection domain and read-only domain for connection are updated based on the new failed-over node, and the floating IP domain does not change, but the floating IP pointed to by the floating IP domain is automatically changed to point to the new master.
 
 !!! tip "Note"
-    Since failover is a function that targets nodes belonging to the same region as the master node, automatic failover is not supported when adding read replica nodes only in other regions.
+    * Failover is only supported for nodes within the same region as the master node. Automatic failover is not supported if read replicas are only added in different regions.
+    * We recommend clicking the Update Read-Only Domain button only after the failure is fully resolved to ensure the IP information is updated based on the final status of the read-only nodes.
+    * Unlike an actual failover, the read-only domain IP information is automatically updated when IP changes occur through manual master changes or other administrative functions.
 
 ### Remove Forced Replication Connection
 
