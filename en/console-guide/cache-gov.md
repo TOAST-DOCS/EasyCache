@@ -1,455 +1,453 @@
-# 캐시
+# Cache
 
-**Database > EasyCache > 콘솔 사용 가이드 > 캐시**
+**Database > EasyCache > Console User Guide > Cache**
 
-캐시는 가상 장비와 엔진(Valkey 및 구 Redis)을 설치한 노드들을 관리하는 개념으로, EasyCache 서비스 내 가장 큰 자원 단위입니다.
-하나의 캐시는 여러 노드들로 구성되어 있으며 캐시에 속한 노드들은 캐시의 엔진 버전과 포트, 비밀번호, 파라미터 그룹, 보안 그룹 등의 정보를 공유합니다.
+Cache is a concept for managing nodes with virtual equipment and engines (Valkey and old Redis) installed, and is the largest resource unit within the EasyCache service.
+A single cache consists of multiple nodes, and the nodes belonging to the cache share information such as the cache's engine version, port, password, parameter group, and security group.
 
-* 사용할 수 있는 포트 범위는 10000 \~ 12000 사이입니다.
-* 현재 Valkey 엔진을 제공하며, Redis의 경우 이미 생성한 캐시만 지원합니다.
-* 캐시는 32 바이트의 아이디를 자동으로 발급하여 제공합니다.
-* 캐시의 이름은 사용자가 입력 및 수정할 수 있으며 아래의 제약 사항이 있습니다.
-* 20자 이내의 문자와 숫자, 그리고 일부 기호(-, _ )만 사용할 수 있습니다.
+* The available service port range is between 10,000 and 12,000.
+* Currently we provide the Valkey engine. For Redis, we only support caches that have already been created.
+* A cache automatically issues and provides a 32-byte ID.
+* Users can enter or modify the cache name, and it has the limitation as below:
+* Only letters, numbers, and some symbols (-, _) can be used within 20 characters.
 
-제공하는 캐시의 타입은 아래와 같습니다.
+The types of caches provided are as follows:
 
-| 타입 | 설명 |
+| Type | Description |
 | --- | --- |
-| 단일 노드 캐시 | 하나의 마스터 노드만으로 이루어진 캐시 |
-| 고가용성 캐시 | 하나의 마스터 노드와 하나 이상의 읽기 복제본 노드로 이루어진 캐시 |
+| Single node cache | A cache of one master node |
+| High-availability cache | A cache of one master node and one or more read replica nodes |
 
-## 노드
+## Node
 
-노드는 실제로 엔진(Valkey 및 구 Redis)과 엔진을 설치한 가상 장비를 지칭하는 기본 자원 단위입니다.
-하나의 노드는 하나의 Valkey가 설치되며 기본적으로 캐시가 공유하는 정보를 따릅니다.
-노드는 32 바이트의 아이디를 자동으로 발급하여 제공합니다.
-노드의 이름은 캐시의 이름에 '-숫자/문자'를 추가하여 자동으로 작성되므로 변경할 수 없습니다.
+A node is a basic resource unit that actually refers to the engine (Valkey and old Redis) and the virtual machine on which the engine is installed.
+One node has one Valkey installed and by default follows the information shared by the cache.
+A node automatically issues and provides a 32-byte ID.
+The node name cannot be changed as it is automatically created by adding “-number/letter” to the name of the cache.
 
-제공하는 노드의 타입은 아래와 같습니다.
+The types of nodes provided are as follows:
 
-| 타입 | 설명 |
+| Type | Description |
 | --- | --- |
-| 마스터 노드 | 읽기와 쓰기를 모두 제공하는 마스터 노드 |
-| 읽기 복제본 노드(마스터 노드와 동일 리전인 경우) | 읽기만을 제공하는 읽기 전용 복제본 노드로 장애 조치 시 읽기 복제본 노드 중 하나가 마스터 노드로 변경됩니다. |
-| 읽기 복제본 노드(마스터 노드와 다른 리전인 경우) | 읽기만을 제공하는 읽기 전용 복제본 노드이나, 장애 발생 시 장애 조치를 수행하지는 않습니다. |
-| 고가용성 제어 노드 | 마스터 노드와 읽기 복제본 노드를 포함하여 고가용성을 제어하기 위한 개별 노드로, 읽기 복제본 노드를 하나 이상 추가할 경우 자동으로 생성됩니다. |
+| Master node | A master node providing both read and write features |
+| Read replica node (if in the same region as the master node) | A read-only replica node that serves read only. In the event of a failover, one of the read replica nodes changes to the master node. |
+| Read replica node (if in a different region than the master node) | A read-only replica node that serves read only, but does not perform failover in the event of a failure. |
+| High-availability Control Node | A separate node for controlling high availability, including the master node and read replica nodes, which are automatically created when you add one or more read replica nodes. |
 
-## 캐시 생성
+## Create Cache
 
-아래 설정들을 사용하여 캐시를 생성할 수 있습니다.
+You can create a cache by using the settings below:
 
-### 가용성 영역
+### Availability Zone
 
-NHN Cloud는 물리 하드웨어 문제로 생기는 장애에 대비하기 위해 전체 시스템을 여러 개의 가용성 영역으로 나누어 두었습니다. 이 가용성 영역별로 저장 시스템, 네트워크 스위치, 상면, 전원 장치가 모두 별도로 구성돼 있습니다. 한 가용성 영역 내에서 생기는 장애는 다른 가용성 영역에 영향을 주지 않으므로 서비스 전체의 가용성이 높아집니다. EasyCache는 마스터 노드의 가용성 영역을 선택할 수 있으며 이 때 선택한 가용성 영역을 기준으로 읽기 복제본 노드들의 가용성 영역을 자동으로 할당하여 가용성을 높여줍니다. 여러 가용성 영역에 흩어져서 생성된 노드 간의 네트워크 통신 과정에서 발생하는 네트워크 사용 비용은 부과되지 않습니다.
+NHN Cloud has divided its entire system into multiple availability zones to prepare for failures caused by physical hardware issues. Each availability zone has separate storage systems, network switches, racks, and power supplies. Failures within one availability zone do not affect other availability zones, increasing the availability of the entire service. EasyCache allows you to select the availability zone of the master node, and automatically assigns the availability zones of the read replica nodes based on the selected availability zone, thereby increasing availability. There is no network usage cost incurred during network communication between nodes created across multiple availability zones.
 
-!!! danger "주의"
-    이미 생성한 마스터 노드의 가용성 영역은 변경할 수 없습니다.
+!!! danger "warning"
+    The availability zone of master nodes already created can be changed.
 
-### 엔진 버전
+### Engine Version
 
-아래에 명시된 버전을 사용할 수 있습니다.
+The versions listed below are available:
 
-| 버전 | 비고 |
+| Version | Note |
 | --- | --- |
-| **Valkey 8** |  |
-| 8.0.2 |  |
-| **Redis 7** | 신규 캐시 지원 종료 |
-| 7.2.6 |  |
-| 7.2.4 |  |
-| 7.0.7 |  |
-| **Redis 6** | 신규 캐시 지원 종료 |
-| 6.2.3 |  |
-| **Redis 5** | 신규 캐시 지원 종료 |
-| 5.0.8 |  |
-| **Redis 3** | 신규 캐시 지원 종료 |
-| 3.2.12 |  |
+| **Valkey 8** |  |
+| 8.1.4 |  |
+| 8.0.2 |  |
+| **Redis 7** | New cache support ended |
+| 7.2.6 |  |
+| 7.2.4 |  |
+| 7.0.7 |  |
+| **Redis 6** | New cache support ended |
+| 6.2.3 |  |
+| **Redis 5** | New cache support ended |
+| 5.0.8 |  |
+| **Redis 3** | New cache support ended |
+| 3.2.12 |  |
 
-!!! tip "알아두기"
-    신규 생성하는 캐시에는 Redis를 더 이상 제공하지 않으며, 이미 Redis를 사용 중인 캐시에 대해서만 서비스를 제공합니다.
+!!! tip "notice"
+    Newly created caches no longer provide Redis, and we only serve caches that are already using Redis.
 
-### 인스턴스 타입
+### Instance Flavor
 
-인스턴스는 타입에 따라 서로 다른 CPU 코어 수와 메모리 용량을 가지고 있습니다.
-인스턴스 생성 시 데이터베이스 워크로드에 따라 알맞은 인스턴스 타입을 선택해야 합니다.
+Instances have different numbers of CPU cores and memory capacities depending on their flavors.
+When creating an instance, you must select the appropriate instance flavor based on your database workload.
 
-| 타입 | 설명 |
+| Type | Description |
 | --- | --- |
-| m2 | CPU와 메모리를 균형 있게 설정한 타입입니다. |
-| c2 | CPU의 성능을 높게 설정한 인스턴스 타입입니다. |
-| r2 | 다른 자원에 비해 메모리의 사용량이 많은 경우 사용할 수 있습니다. |
-| x1 | 고사양의 CPU와 메모리를 지원하는 타입입니다. 높은 성능이 필요한 서비스나 애플리케이션에 사용합니다. |
+| m2 | Flavor with balanced CPU and memory settings. |
+| c2 | Flavor with high CPU performance. |
+| r2 | Available when memory usage is high compared to other resources. |
+| x1 | This flavor supports high-spec CPUs and memory. Used for services or applications that require high performance. |
 
-!!! danger "주의"
-    이미 생성한 캐시 및 노드의 인스턴스 타입은 변경할 수 없습니다. 현재 공식 기능으로 제공하고 있지 않으며, 필요시 고객 센터로 문의하세요.
+!!! danger "warning"
+    The instance flavor of caches and nodes already created can be changed. It is not currently available as an official feature, please contact the customer center if necessary.
 
-### Max Memory(MB)
+### Max Memory (MB)
 
-Valkey가 사용할 최대 메모리 용량을 지정하여 동기화나 백업 실행 시 메모리 부족을 예방할 수 있습니다.
-필요할 때 캐시 수정 기능을 통해 메모리의 용량을 유연하게 확보할 수 있습니다.
+You can specify Max Memory used by Valkey to avoid running out of memory when running a sync or backup.
+When needed, cache modifications allow you to flexibly secure the capacity of memory.
 
-### 비밀번호 사용
+### Use Password
 
-비밀번호 사용을 선택할 경우 자동으로 문자열을 생성하여 비밀번호를 지정합니다.
-캐시 생성 완료 후 캐시 기본 정보 또는 노드 기본 정보에서 확인할 수 있습니다.
+If you choose to use a password, automatically create a string and specify a password.
+After the cache is completed, you can check it in the cache basic information or node basic information.
 
-### 네트워크
+### Network
 
-캐시에 속한 노드에 연결할 VPC 서브넷을 선택해야 합니다. 동일한 서브넷에 연결된 Compute 서비스의 인스턴스 간에는 별도의 플로팅 IP 없이 통신할 수 있으며, 네트워크 트래픽에 대한 비용이 청구되지 않습니다. 노드는 기본적으로 모든 네트워크 접근을 차단하므로 접속을 원하는 경우 DB 보안 그룹을 적용해야 합니다.
+You need to select the VPC subnet to connect to the node you belong to in the cache. The instance of the Compute service connected to the same subnet can communicate without a separate floating IP and no cost for network traffic. The node basically blocks all network access, so if you want to connect, you need to apply the DB security group.
 
-!!! danger "주의"
-    이미 생성한 캐시와 노드의 서브넷은 변경할 수 없습니다.
+!!! danger "warning"
+    The subnets of caches and nodes already created can be changed.
 
-### 플로팅 IP
+### Floating IP
 
-외부에서 노드에 접근하려면 플로팅 IP를 마스터 노드에 연결해야 합니다. Internet Gateway가 연결된 서브넷을 연결할 경우에만 플로팅 IP를 생성할 수 있습니다. 플로팅 IP는 사용과 동시에 과금되며, 이와 별개로 플로팅 IP를 통한 인터넷 방향의 트래픽이 발생할 경우 별도 과금합니다.
-플로팅 IP를 사용할 경우 플로팅 IP를 위한 플로팅 IP 도메인이 같이 생성되어 캐시 기본 정보 및 마스터 노드의 기본 정보에서 확인할 수 있습니다.
+To access the node from the outside, the floating IP must be connected to the master node. You can create a floating IP only if you connect the subnet connected with the Internet Gateway. Floating IP is charged at the same time as it is used, and separately, if traffic in the Internet direction through floating IP is generated, it will be charged separately.
+If you are using the floating IP, the floating IP domain for the floating IP is created together and can be found in the cache default information and the basic information of the master node.
 
-### 파라미터 그룹
+### Parameter Group
 
-파라미터 그룹은 캐시에 속한 노드들의 Valkey에 관한 파라미터의 집합입니다. 캐시 생성 시 반드시 하나의 파라미터 그룹을 선택해야 합니다. 파라미터 그룹은 생성 이후에도 자유롭게 변경이 가능합니다. 파라미터 그룹에 대한 자세한 설명은 **@파라미터 그룹** 항목을 참고합니다.
+The parameter group is a set of parameters on the VALKEY of the nodes in the cache. When creating a cache, you must choose one parameter group. Parameter groups can be changed freely after creation. For more information about the parameter group, please refer to the **@parameter group ** item.
 
-### DB 보안 그룹
+### DB Security Group
 
-DB 보안 그룹은 외부 침입에 대비해 접속을 제한하기 위해서 사용합니다. 송수신 트래픽에 대해서 특정 포트 범위 또는 지정한 포트에 대해서 접근을 허용할 수 있습니다.
-캐시에 한번에 여러 개의 DB 보안 그룹을 적용할 수 있으며, DB 보안 그룹에 대한 자세한 설명은 **@DB 보안 그룹** 항목을 참고합니다.
+DB security groups are used to restrict access in case of external intrusion. You can allow access to a specific port range or specified port for transmission and receiving traffic.
+You can apply multiple DB security groups at once, and please refer to the **@DB security group ** section for a detailed description of the DB security group.
 
-### TLS 인증
+### TLS Authentication
 
-NHN Cloud의 **@Certificate Manager** 서비스에 저장된 인증서 중 하나를 선택해 TLS 인증서로 통신할 수 있습니다.
+NHN Cloud's **@Certificate Manager ** You can select one of the certificates stored in the service and communicate with the TLS certificate.
 
-* **TLS 서비스 포트**: TLS 인증서를 사용한 접속용 포트입니다. 10000 이상, 12000 이하의 숫자로 서비스 포트와 다르게 설정해야 합니다.
-* **TLS 서비스 포트만 사용**: TLS 서비스 포트만 사용하여 접속하도록 설정할 수 있습니다. 이 기능을 활성화할 경우 일반 서비스 포트를 사용해 접속할 수 없습니다.
-* **인증서 선택**: Certificate Manager 서비스에 저장된 TLS 인증서 중 하나를 선택할 수 있습니다. Certificate Manager 서비스의 Appkey를 입력해야 합니다.
-* Valkey는 공개 키, 비밀 키 및 CA 공개 키를 모두 필요로 합니다. 따라서 사용할 인증서에는 해당 키가 모두 포함되어야 하며, 해당 키를 생성하는 방법은 [Certificate Manager > 문제 해결 가이드](https://docs.nhncloud.com/ko/Management/Certificate%20Manager/ko/troubleshooting-guide/)를 참조하세요.
+** TLS service port **: a port for connection using TLS certificate. It is necessary to set the number to more than 10,000 and more than 12,000, unlike the service port.
+** ** TLS service port only **: TLS service can be used to connect. If you activate this feature, you cannot access it using a common service port.
+*** Select certificate **: you can choose one of the TLS certificates stored in the Certificate Manager service. You need to enter the Appkey of the Certificate Manager service.
+* VALKEY requires both public, secret key, and CA public keys. Therefore, the certificate to be used should include all the keys, and for how to generate the key, refer to the [Certificate Manager> Troubleshooting Guide] (https://docs.nhncloud.com/en/manage/certificate%20Manager/en/troubleshooting-guide/).
 
-!!! danger "주의"
-    복제 그룹 생성 시점에 TLS 인증서 사용 여부를 결정하면 이후에 변경할 수 없습니다.
+!!! danger "warning"
+    If you decide whether to use the TLS certificate at the time of the creation of a replica group, you will not be able to change it later.
 
-### 백업
+### Backup
 
-캐시의 Valkey를 주기적으로 백업하도록 설정하거나, 콘솔을 통해 원하는 시기에 백업을 생성할 수 있습니다. 백업은 마스터에서 수행되며, 수행되는 동안 성능 저하가 발생할 수 있습니다. 서비스에 영향을 주지 않기 위해 서비스의 부하가 적은 시간에 백업하는 것을 권장합니다. 백업 파일은 내부 백업 스토리지에 저장되며, 백업 용량에 따라 과금됩니다. 예상치 못한 장애에 대비하기 위해서 주기적으로 백업을 수행하도록 설정하는 것을 권장합니다. 백업에 대한 자세한 설명은 **@백업** 항목을 참고합니다.
+You can set the value of the cache periodically, or you can create a backup at the time you want through the console. The backup is carried out in the master, and the performance may occur during the performance. It is recommended to back up at a time when the service load is low in order not to affect the service. The backup file is stored in the internal backup storage and is charged according to the backup capacity. In order to prepare for unexpected failure, it is recommended to set up a backup periodically. For more information about the backup, please refer to the **@backup ** item.
 
-### 기본 알림
+### Default Notifications
 
-캐시 생성 시 기본 알림을 설정할 수 있습니다. 기본 알림을 설정하면 {캐시 이름}-default라는 이름으로 새로운 알림 그룹이 생성되며 아래 알림 항목들이 자동으로 설정됩니다. 기본 알림으로 생성된 알림 그룹은 자유롭게 수정, 삭제할 수 있습니다. 알림 그룹에 대한 자세한 설명은 **@알림 그룹** 항목을 참고합니다.
+You can set up a default notification when creating a cache. If you set the default notification, a new notification group is created under the name {Cash Name} -DEFAULT, and the following notification items are automatically set. Notification groups created with Default Notifications can be freely modified or deleted. For more information about the notification group, please refer to the **@notification group ** item.
 
-기본 알림 그룹의 감시 설정 항목은 아래와 같습니다.
+The monitoring settings for the default notification group are as follows:
 
-| 항목 | 비교 방법 | 임계값 | 지속 시간 |
+| Item | Comparison method | Threshold | Duration |
 | --- | ----- | --- | ----- |
-| CPU 사용률 | > | 80% | 10분 |
-| 메모리 사용량 | >= | 80% | 10분 |
-| 연결된 클라이언트 수 | > | 9000 | 1분 |
-| 블록된 클라이언트 수 | > | 1 | 10분 |
-| 삭제된 키 개수 | > | 1 | 10분 |
+| CPU usage | > | 80% | 10 min |
+| Memory usage | > | 80% | 10 min |
+| No. of connected clients | > | 9,000 | 1 min |
+| No. of blocked clients | > | 1 | 10 min |
+| No. of deleted keys | > | 1 | 10 min |
 
-### 삭제 보호
+### Deletion Protection
 
-삭제 보호를 활성화하면 실수로 캐시가 삭제되지 않도록 보호할 수 있습니다.
+If you activate deletion protection, you can protect the cache from accidental deletion.
 
-## 캐시 및 노드 목록
+## Cache and node list
 
-콘솔에서 생성한 캐시를 확인할 수 있습니다. 캐시 단위로 캐시에 속한 노드를 리스트로 볼 수 있습니다.
+You can check the cache created from the console. You can view a list of nodes belonging to a cache by cache unit.
 ![cache1.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache1.PNG)
 
-➊: 버튼을 클릭하여 캐시에 속한 노드 리스트를 접거나 펼칠 수 있습니다.
-➋: 가장 최근 수집된 모니터링 지표를 보여줍니다. 노드 리스트가 접혀 있을 땐 마스터 노드의 모니터링 지표를 캐시에 표시합니다.
-➌: 현재 상태를 볼 수 있습니다.
-➍: 진행 중인 작업이 있으면 스피너가 나타납니다.
-➎: 검색 조건을 변경할 수 있습니다.
+➊: You can collapse or expand the list of nodes belonging to the cache by clicking the button.
+➋: It shows the most recently collected monitoring metrics. When the node list is collapsed, the monitoring metrics of the master node are displayed in the cache.
+➌: You can view the current status.
+➍: A spinner appears when there is a task in progress.
+➎: You can change the search condition.
 
-캐시 및 노드의 상태는 아래와 같은 값들로 구성되며, 사용자의 행위와 현재 상태에 따라 변경됩니다.
+The state of the cache and nodes consists of the following values, which change depending on the user's actions and current state.
 
-| 상태 | 설명 |
+| Status | Description |
 | --- | --- |
-| REGISTERD | 생성 이전 |
-| STABLE | 사용 가능 |
-| FAILED\_TO\_CREATE | 생성 실패 |
-| FAILED\_TO\_CONNECT | 연결 실패 |
-| REPLICATION\_STOP | 복제 중단 |
-| WARNING | 상태 이상 |
-| DISABLE | 이용 불가 |
-| PLANNED\_MIGRATION\_FAILED | 마이그레이션 실패 |
-| SHUTDOWN | 중지됨 |
+| REGISTERD | Before create |
+| STABLE | Available |
+| FAILED\_TO\_CREATE | Failed to create |
+| FAILED\_TO\_CONNECT | Failed to connect |
+| REPLICATION\_STOP | Replication stopped |
+| WARNING | Abnormal |
+| DISABLE | Unavailable |
+| PLANNED\_MIGRATION\_FAILED | Failed to migrate |
+| SHUTDOWN | Stopped |
 
-## 캐시 및 노드 상세
+## Cache and node details
 
-캐시 및 노드를 선택하면 상세 정보를 볼 수 있습니다.
+You can view the details by selecting the cache and node.
 
 ![cache2.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache2.PNG)
 
-➊: 접속 정보의 도메인을 클릭하면 IP 정보를 포함한 도메인의 자세한 정보를 확인할 수 있는 팝업 창이 나타납니다.
-➋: DB 보안 그룹을 클릭하면 DB 보안 규칙을 확인할 수 있는 팝업 창이 나타납니다.
-➌: 파라미터 그룹을 클릭하면 파라미터를 확인할 수 있는 화면으로 이동합니다.
-➍: 마우스로 드래그 앤 드롭하여 상세 정보 패널의 높이를 조절할 수 있습니다.
-➎: 상세 정보 패널을 미리 지정한 높이로 조정할 수 있습니다.
+➊: When you click on a domain in the connection information, a pop-up window will appear where you can view detailed information about the domain, including IP information.
+➋: When you click on a DB Security Group, a pop-up window will appear where you can check the DB Security Rules.
+➌: Clicking on a parameter group will take you to a screen where you can check the parameters.
+➍: You can adjust the height of the details panel by dragging and dropping with the mouse.
+➎: You can adjust the details panel to a predefined height.
 
-### 접속 정보
+### Access Information
 
-캐시 생성 시 접속 도메인을 발급합니다. 접속 도메인은 사용자 VPC 서브넷에 속한 IP 주소를 가리킵니다. 고가용성 캐시의 경우 장애 조치가 되어 읽기 복제본 중 하나가 새로운 마스터로 변경되더라도 접속 도메인은 변경되지 않습니다. 따라서 특별한 이유가 없으면 응용 프로그램의 접속 정보는 반드시 접속 도메인을 이용해야 합니다.
+When creating a cache, an access domain is issued. The access domain points to an IP address belonging to the user's VPC subnet. For a high-availability cache, if a failover occurs and one of the read replicas changes to the new master, the access domain does not change. Therefore, unless there is a special reason, the application's access information must use the connection domain.
 
-플로팅 IP를 사용한 경우 플로팅 IP 도메인을 추가로 발급합니다. 플로팅 IP 도메인은 플로팅 IP의 주소를 가리킵니다. 장애 조치가 되어 새로운 마스터로 교체되더라도 여전히 같은 플로팅 IP와 도메인을 이용해 새로운 마스터에 접근할 수 있습니다. 플로팅 IP 도메인은 외부에서 접근이 가능하므로 DB 보안 그룹의 규칙을 적절히 설정하여 캐시를 보호해야 합니다.
+If you use a floating IP, an additional floating IP domain will be issued. The floating IP domain indicates the address of the floating IP. Even if a failover occurs and the master is replaced with a new one, you can still access the new master using the same floating IP and domain. Because floating IP domains are accessible from outside, you must protect the cache by setting up appropriate rules in the DB security group.
 
-읽기 복제본 노드가 있다면 캐시 수정을 통해 읽기 전용 도메인을 설정할 수 있습니다. 읽기 전용 도메인을 사용할 경우 읽기 전용 도메인에 같은 캐시 및 같은 리전에 속한 읽기 복제본 노드들의 VPC 서브넷에 속한 IP 주소를 가리킵니다. 장애 조치가 되어 읽기 복제본 중 하나가 새로운 마스터로 변경되었다면 읽기 전용 도메인이 가리키는 IP 정보도 새롭게 갱신됩니다.
+If you have read replica nodes, you can set up a read-only domain by modifying the cache. When using a read-only domain, point the read-only domain to an IP address belonging to the VPC subnet of the read replica nodes that belong to the same cache and the same region. If a failover occurs and one of the read replicas becomes the new master, the IP information pointed to by the read-only domain is also updated.
 
 ![cache3.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache3.PNG)
 
-### 이벤트(캐시)
+### Event (cache)
 
-선택한 캐시가 동작한 이벤트들이 시간 순서에 맞게 표시되며 원하는 기간을 지정하여 볼 수 있습니다.
+Events triggered by the selected cache are displayed in chronological order, and you can view them by specifying the period you want.
 
 ![cache4.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache4.PNG)
 
-### 백업
+### Backup
 
-선택한 캐시가 생성한 백업 리스트가 표시되며, **백업 생성**을 클릭해 백업을 생성할 수 있습니다.
+A list of backups created by the selected cache will be displayed, and you can create a backup by clicking **Create Backup**.
 
 ![cache5.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache5.PNG)
 
-### 도메인
+### Domain
 
-캐시는 모든 도메인 정보를 보여주고 있으나, 노드 기본 정보에서는 노드 종류별로 보여주는 도메인 정보가 다르므로 아래 설명을 참조합니다.
+The cache shows all domain information, but the node basic information shows different domain information depending on the node type, so please refer to the explanation below.
 
-| 노드 종류 | 보여주는 도메인 정보 |
+| Node type | Domain information shown |
 | ----- | ----------- |
-| 마스터 노드 | 접속 도메인, 플로팅 IP 도메인 |
-| 읽기 복제본 노드 | 읽기 전용 도메인 |
-| 고가용성 제어 노드 | 없음 |
+| Master node | access domain, floating IP domain |
+| Read replica node | Read-only domain |
+| High-availability Control Node | None |
 
-### 운영체제 버전
+### OS Version
 
-선택한 노드가 동작 중인 운영체제 버전을 보여줍니다.
+The selected node shows the OS version in working.
 
 ![cache6.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache6.PNG)
 
-### 모니터링
+### Monitoring
 
-선택한 노드의 각종 모니터링 지표를 보여줍니다.
+Shows various monitoring indicators of the selected node.
 
 ![cache7.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache7.PNG)
 
-### 이벤트(노드)
+### Event (node)
 
-선택한 노드가 동작한 이벤트들이 시간 순서에 맞게 표시되며 원하는 기간을 지정하여 볼 수 있습니다.
+Events triggered by the selected node are displayed in chronological order, and you can view them by specifying the period you want.
 
 ![cache8.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache8.PNG)
 
-### 로그
+### Log
 
-노드의 **로그** 탭에서는 Valkey의 로그를 원하는 기간을 지정하여 볼 수 있습니다. **새 탭으로 보기**를 클릭하면 새로운 탭에서 넓은 화면으로 로그를 확인할 수 있습니다.
+The **Logs** tab of a node allows you to view Valkey's logs for a specified period of time. Click the **View in New Tab** to view the log in a new tab with a wider screen.
 
 ![cache9.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache9.PNG)
 
-### 사용자
+### User
 
-노드의 사용자 탭에서는 Valkey에 사용자를 생성, 조회, 수정, 삭제할 수 있습니다.
+The Users tab of a node allows you to create, view, edit, and delete users in Valkey.
 
-➊: **생성**을 클릭하면 원하는 사용자의 정보를 입력할 수 있는 팝업 창이 나타납니다.
-➋: 해당 사용자의 활성화 여부를 선택할 수 있습니다.
-➌: Valkey가 지원하는 ACL 표현식을 통해 사용자에게 권한을 부여할 수 있습니다.
-➍: 설정 파일의 **저장**을 클릭하면, 현재 Valkey 메모리에 저장되어 있는 사용자 정보가 설정 파일에 기록되어 재시작 후에도 사용자 설정이 유지됩니다.
+➊: clicking **Create** will bring up a pop-up window where you can enter the user's information you want.
+➋: you can choose whether to activate or not for the user.
+➌: you can grant permissions to users via ACL expressions supported by Valkey.
+➍: when you click **Save** in the settings file, the user information currently stored in Valkey memory will be recorded to the settings file, so that the user settings will be maintained even after restarting.
 
-!!! danger "주의"
-    * 사용자 설정은 노드별로 설정되는 정보이므로 같은 캐시에 속한 다른 노드에 전파되지 않습니다. 따라서 노드별로 사용자 설정을 다르게 한 경우 장애 조치가 정상적으로 진행되지 않을 수 있으므로 주의해야 합니다.
-    * 노드에 생성한 사용자 정보는 설정 파일에 저장하기 전에는 캐시 재시작 등의 이유로 유실될 수 있으므로 주의해야 합니다.
+!!! danger "warning"
+    * User settings are information set per node and are not propagated to other nodes belonging to the same cache. Therefore, if you have different user settings for each node, failover may not proceed properly, so be careful.
+    * Please note that user information created on the node may be lost due to reasons such as cache restart before being saved to the configuration file.
 
-## 캐시 수정
+## Modify Cache
 
 ![cache10.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache10.PNG)
-콘솔 화면에서 원하는 캐시의 체크 박스를 선택한 뒤 **수정**을 클릭해 선택한 캐시의 다양한 항목을 손쉽게 변경할 수 있습니다. 변경 요청한 항목을 순차적으로 캐시에 적용합니다. 적용 과정에서 재시작이 필요할 경우 모든 변경을 적용한 뒤 캐시를 재시작합니다. 변경 불가능한 항목과 재시작이 필요한 항목은 다음과 같습니다.
+You can easily change various items of the selected cache by checking the checkbox of the cache you want in the console screen and clicking **Edit**. Apply the requested changes sequentially to the cache. If a restart is required during the application process, restart the cache after applying all changes. The following items cannot be changed and require a restart:
 
-| 항목 | 변경 가능 여부 | 재시작 필요 여부 | 설명 |
+| Item | Changeable | Restart required | Description |
 | --- | -------- | --------- | --- |
-| 가용성 영역 | 아니오 |  |  |
-| 엔진 버전 | 예 | 예 |  |
-| Max Memory | 예 | 아니오 |  |
-| 인스턴스 타입 | 아니오 |  |  |
-| 캐시 이름 | 예 | 아니오 |  |
-| 캐시 타입 | 예 | 아니오 | 캐시 수정 기능이 아닌 노드 추가 삭제 기능으로 따로 제공 |
-| 설명 | 예 | 아니오 |  |
-| 비밀번호 사용 | 아니오 |  |  |
-| 서비스 포트 | 아니오 |  |  |
-| 마스터 노드 다운 판정 시간 | 예 | 아니오 |  |
-| 네트워크(VPC 서브넷) | 아니오 |  |  |
-| 플로팅 IP 설정 | 예 | 아니오 |  |
-| 읽기 전용 도메인 | 예 | 아니오 |  |
-| 파라미터 그룹 | 예 | 경우에 따라 다름 | 변경한 파라미터에 따라 재시작 여부 결정 |
-| DB 보안 그룹 | 예 | 아니오 |  |
-| TLS 인증서 사용 | 아니오 |  |  |
-| TLS 서비스 포트 | 아니오 |  |  |
-| TLS 서비스 포트만 사용 | 아니오 |  |  |
-| TLS 인증서 선택 | 예 | 아니오 |  |
-| 백업 설정 | 예 | 아니오 |  |
-| 기본 알림 | 예 | 아니오 |  |
-| 삭제 보호 | 예 | 아니오 |  |
+| Availability zone | No |  |  |
+| Engine version | Yes | Yes |  |
+| Max Memory | Yes | No |  |
+| Instance flavor | No |  |  |
+| Cache name | Yes | No |  |
+| Cache type | Yes | No | Provided separately as a node add/delete function, not a cache modification function |
+| Description | Yes | No |  |
+| Use password | No |  |  |
+| Service port | No |  |  |
+| Master down after | Yes | No |  |
+| Network (VPC subnet) | No |  |  |
+| Floating IP setting | Yes | No |  |
+| Read-only domain | Yes | No |  |
+| Parameter group | Yes | Depends on the case | Determines whether to restart based on changed parameters |
+| DB security group | Yes | No |  |
+| Use TLS certificate | No |  |  |
+| TLS service port | No |  |  |
+| Use TLS service port only | No |  |  |
+| Select TLS certificate | Yes | No |  |
+| Backup setting | Yes | No |  |
+| Basic notification | Yes | No |  |
+| Deletion protection | Yes | No |  |
 
-### 엔진 버전 수정
+### Modify Engine Version
 
-현재 캐시가 사용 중인 엔진 버전에서 더 높은 엔진 버전으로 수정하여 업그레이드를 진행할 수 있습니다.
-엔진 버전 업그레이드는 서비스 중지 또는 순단이 발생하기 때문에 작업에 주의가 필요합니다.
-캐시에 속한 읽기 복제본 노드 및 고가용성 제어 노드부터 엔진 버전 업그레이드가 진행되며, 노드들의 버전 업그레이드가 모두 진행되면 마스터 변경이 일어난 뒤 읽기 복제본 노드로 변한 구 마스터 노드의 엔진 버전을 업그레이드하므로 최종적으로 마스터가 교체됩니다.
-만약 캐시에 속한 노드가 마스터 노드 하나뿐이라면 바로 마스터 노드의 엔진 버전 업그레이드를 수행하며 이때 서비스 중지가 발생합니다.
+You can upgrade the cache by upgrading to a higher engine version than the current one.
+Engine version upgrades require careful consideration, as they can cause service interruptions or outages.
+The engine version upgrade will begin with the read replica nodes and high-availability control nodes in the cache. Once all nodes have been upgraded, the master will be replaced. The engine version of the old master node, now a read replica node, will be upgraded, ultimately replacing the master.
+If the cache only contains one master node, the engine version upgrade will occur immediately, resulting in service interruption.
 
-!!! danger "주의"
-    * 마스터 노드와 같은 리전에 읽기 복제본 노드가 존재할 경우 최종적으로는 마스터가 변경되므로 주의합니다.
+!!! danger "Warning"
+    * Please note that if there are read replica nodes in the same region as the master node, the master will eventually change.
 
-!!! tip "알아두기"
-    * Redis 7.0.7 미만 버전들은 7.0.7 버전으로 한 번 업그레이드한 뒤에 다음 버전으로 업그레이드가 가능합니다.
-    * Redis에서 Valkey로의 업그레이드는 현재 제공하지 않으나 추후 제공할 예정입니다.
+!!! tip "Note"
+    * Redis versions prior to 7.0.7 can be upgraded to 7.0.7 before being upgraded to the next version.
+    * Redis versions 7.0.7 or later provide upgrades to the latest version.
 
-## 노드 수정
+## Modify Node
 
 ![cache11.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache11.PNG)
-콘솔 화면에서 원하는 노드의 체크 박스를 선택한 뒤 **수정**을 클릭해 선택한 노드의 일부 항목을 변경할 수 있습니다.
+You can change some items of the selected node by selecting the checkbox of the desired node in the console screen and clicking **Modify**.
 
-| 항목 | 변경 가능 여부 | 재시작 필요 여부 | 설명 |
+| Item | Changeable | Restart required | Description |
 | --- | -------- | --------- | --- |
-| 노드 이름 | 아니오 |  |  |
-| 노드 타입 | 아니오 |  |  |
-| 가용성 영역 | 아니오 |  |  |
-| 엔진 버전 | 아니오 |  | 노드 수정 화면이 아닌 캐시 수정 화면에서 변경할 수 있으며 캐시에 속한 노드들에 순차적으로 반영됩니다. |
-| 인스턴스 타입 | 아니오 |  | 현재는 지원하지 않습니다. (추후 지원 예정) |
-| 운영체제 버전 | 예 | 예 | 가장 최신 버전으로만 업데이트 가능합니다. |
+| Node name | No | | |
+| Node type | No | | | |
+| Availability zone | No | | | |
+| Engine version | No | | Changes can be made on the cache modification screen, not the node modification screen, and are sequentially reflected on nodes belonging to the cache. |
+| Instance flavor | No | | Currently not supported. (to be supported) |
+| Operating system version | Yes | Yes | Only the latest version can be updated. |
 
-### 운영체제 버전 수정
+### Modify OS Version
 
-노드의 운영체제 버전 업그레이드를 지원합니다. 운영체제 업그레이드를 통해 보안 취약점을 해결하거나 운영체제의 EOL에 대응할 수 있습니다.
-운영체제 버전 업그레이드는 경우에 따라 서비스 중지가 발생하기 때문에 작업에 주의가 필요합니다.
-마스터 노드의 경우 읽기 복제본이 있다면 진행할 수 없으며, 읽기 복제본 노드와 고가용성 제어 노드부터 운영체제 버전 업그레이드를 먼저 진행한 뒤 마스터 변경 기능을 통해 기존 마스터를 읽기 복제본으로 변경한 다음 운영체제 버전 업그레이드를 진행해야 합니다.
-만약, 마스터 노드 외 다른 노드가 없다면 마스터 노드의 운영체제 버전 업그레이드를 진행할 수 있으며, 서비스 중지가 반드시 발생합니다.
+Node OS version upgrades are supported. OS upgrades can address security vulnerabilities or address OS end-of-life (EOL) events.
+Operating an OS version requires caution, as it may result in service interruption in some cases.
+For the master node, if there are read replicas, the OS version upgrade cannot be performed. The OS version upgrade must be performed first on the read replica nodes and the high-availability control node, then the existing master node must be converted to a read replica using the Change Master feature before proceeding with the OS version upgrade.
+If there are no other nodes besides the master node, the OS version upgrade can be performed on the master node, but service interruption will inevitably occur.
 
-## 데이터 가져오기
+## Import Data
 
 ![cache12.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache12.PNG)
 
-동일한 리전의 **@Object Storage**에서 데이터를 가져와 캐시에 적용할 수 있습니다.
-사용자 테넌트 아이디, API 비밀번호를 입력한 뒤, {containerName}/{path or fileName} 형식의 데이터 파일 경로를 입력하고 **데이터 가져오기**를 누르면 작업이 시작됩니다.
+You can retrieve data from **@Object Storage** in the same region and apply it to the cache.
+Enter your tenant ID, API password, and the data file path in the format {containerName}/{path or fileName}, then click **Import Data** to start the task.
 
-!!! danger "주의"
-    * 데이터 가져오기 중에는 노드를 사용할 수 없으며, 기존 데이터는 삭제되므로 데이터 가져오기 전 수동 백업 생성을 권장합니다.
-    * 엔진 버전과 호환되는 RDB 파일만 가져올 수 있습니다.
+!!! danger "Warning"
+    * Nodes will be unavailable during data import, and existing data will be deleted, so we recommend creating a manual backup before importing.
+    * Only RDB files compatible with the engine version can be imported.
 
-## 데이터 내보내기
+## Export Data
 
 ![cache13.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache13.PNG)
-내가 원하는 캐시의 데이터를 동일한 리전의 **@Object Storage**로 내보낼 수 있습니다.
-사용자 테넌트 아이디, API 비밀번호를 입력한 뒤, 컨테이너 이름과 데이터 이름 Prefix\* 항목을 입력하고 **데이터 내보내기**를 클릭하면 작업이 시작됩니다.
+You can export data from the cache you want to **@Object Storage** in the same region. Enter your tenant ID and API password, then enter the container name and data name Prefix\* and click **Export Data** to begin the process.
 
-!!! tip "알아두기"
-    사용자가 입력한 경로의 Object Storage에 입력한 데이터 이름 prefix 값과 임의의 문자열이 합쳐진 RDB 파일이 생성됩니다.
+!!! tip "Note"
+    An RDB file is created in Object Storage at the path entered by the user, with the data name prefix value entered and a random string concatenated.
 
-## 노드 추가
+## Add Node
 
 ![cache14.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache14.PNG)
-콘솔 화면에서 원하는 캐시의 체크 박스를 선택한 뒤 **읽기 복제본 노드 추가**를 클릭해 읽기 복제본 노드를 추가할 수 있습니다.
-단일 노드 캐시의 경우 마스터 노드와 동일한 리전에 읽기 복제본 노드를 처음 추가하면 고가용성 제어 노드가 같이 생성됩니다.
-읽기 복제본 노드는 마스터 노드와 동일한 리전에 최대 2개, 마스터 노드와 다른 리전 한곳에 1개까지 생성할 수 있습니다.
-노드 추가가 완료되면 캐시의 종류가 고가용성 캐시로 변경되며, 마스터 노드에서 장애가 발생할 경우 마스터 노드와 동일한 리전에 읽기 복제본 노드가 있다면 장애 조치를 수행하여 마스터 노드가 교체됩니다.
+You can add a read replica node by selecting the checkbox for the desired cache in the console screen and clicking **Add Read Replica Node**.
+For single-node caches, adding a read replica node in the same region as the master node will also create a high-availability control node.
+You can create up to two read replica nodes in the same region as the master node, or one in a different region.
+Once the node is added, the cache type changes to a high-availability cache. If the master node fails, a failover will occur and the master node will be replaced if a read replica node exists in the same region.
 
-!!! danger "주의"
-    다른 리전에 생성한 읽기 복제본은 마스터 노드에 장애가 발생하더라도 장애 조치되지 않습니다.
+!!! danger "Warning"
+    Read replicas created in other regions will not fail over if the master node fails.
 
-## 복제 연결 제거 및 강제 복제 연결 제거
+## Remove Replication Connection and Forced Replication Connection
 
 ![cache15.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache15.PNG)
-콘솔 화면에서 마스터와 다른 리전에 위치한 읽기 복제본 노드에 한하여 노드의 체크박스를 선택한 뒤 **복제 연결 제거** 또는 **강제 복제 연결 제거** 기능을 사용할 수 있습니다.
-복제 연결 제거 기능을 사용할 경우, 원본 리전의 마스터로부터 복제 연결이 제거되어 새로운 마스터로 승격됩니다.
+In the console, you can select the checkbox for a read replica node located in a different region than the master node and use the **Remove Replication Connection** or **Forced Replication Connection** functions.
+Using the Remove Replication Connection function removes the replication connection from the master in the source region and promotes it to become the new master.
 
-!!! tip "알아두기"
-    * 강제 복제 연결 제거를 수행할 경우 강제로 복제 연결 작업을 수행하는 것이므로 원본 리전의 캐시 및 마스터 노드 구성 정보와 불일치가 발생할 수 있습니다. 따라서 원본 리전의 장애 상황과 같은 특수한 경우에만 사용할 것을 권장합니다.
-    * 마스터와 같은 리전의 읽기 복제본은 복제 연결 제거 기능을 지원하지 않습니다. (추후 지원 예정)
+!!! tip "Note"
+    * Performing a forced replication connection removal may result in inconsistencies with the source region's cache and master node configuration information, as this involves forcing a replication connection operation. Therefore, it is recommended only for special cases, such as a failure in the source region.
+* Read replicas in the same region as the master do not support the replication connection removal feature. (to be supported)
 
-## 노드 삭제
+## Delete Node
 
 ![cache16.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache16.PNG)
-콘솔 화면에서 원하는 고가용성 캐시에 속한 노드의 체크 박스를 선택한 뒤 **노드 삭제**를 클릭해 읽기 복제본 노드를 삭제할 수 있습니다.
-마스터 노드와 고가용성 제어 노드는 지정해서 삭제할 수 없습니다.
-선택한 읽기 복제본 노드가 삭제된 뒤 마스터 노드와 같은 리전에 더 이상 남은 읽기 복제본 노드가 존재하지 않는다면 고가용성 제어 노드도 같이 삭제합니다.
+You can delete a read replica node by selecting the checkbox for the node belonging to the high-availability cache you want on the console screen and clicking **Delete Node**.
+The master node and high-availability control node cannot be deleted by design.
+After the selected read replica node is deleted, if there are no more read replica nodes remaining in the same region as the master node, the high-availability control node will also be deleted.
 
-## 마스터 변경
+## Change Master
 
 ![cache17.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache17.PNG)
-콘솔 화면에서 원하는 고가용성 캐시의 체크 박스를 선택한 뒤 마스터 변경 기능을 통해 마스터를 변경할 수 있습니다.
-기존 마스터 노드는 읽기 복제본으로 변경되면, 마스터 노드와 같은 리전에 위치한 읽기 복제본 노드 중 하나가 새로운 마스터로 변경됩니다.
+You can change the master by selecting the checkbox for the high-availability cache you want on the console screen and using the Change Master function.
+When the existing master node is converted to a read replica, one of the read replica nodes located in the same region as the master node becomes the new master.
 
-## 캐시 중지
+## Stop Cache
 
 ![cache18.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache18.PNG)
-동작 중인 캐시 중 원하는 것을 선택하여 중지시킬 수 있습니다.
-고가용성 캐시일 경우 캐시에 속한 모든 노드가 중지됩니다.
+You can stop any running cache you want. If it's a high-availability cache, all nodes in the cache will be stopped.
 
-## 캐시 시작
+## Start Cache
 
 ![cache19.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache19.PNG)
-중지된 캐시 중 원하는 것을 선택하여 다시 시작할 수 있습니다.
-고가용성 캐시일 경우 캐시에 속한 모든 노드를 시작합니다.
+You can restart any stopped cache you want. If it's a high-availability cache, restart all nodes belonging to the cache.
 
-## 캐시 재시작
+## Restart Cache
 
 ![cache20.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache20.PNG)
-콘솔 화면에서 캐시 중 원하는 것을 선택하여 다시 시작할 수 있습니다.
-고가용성 캐시일 경우 캐시에 속한 모든 노드가 재시작합니다.
+You can restart any cache you want from the console screen. If it's a high-availability cache, all nodes in the cache will restart.
 
-## 파라미터 그룹 변경 사항 적용
+## Apply Parameter Group Changes
 
 ![cache21.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache21.PNG)
-이미 캐시가 사용 중인 파라미터 그룹을 **파라미터 그룹** 탭에서 수정할 경우 해당 파라미터 그룹을 사용 중인 캐시와 캐시에 속한 노드에 바로 적용되지는 않으며, 대신 콘솔 화면의 캐시 목록에 **파라미터** 버튼이 나타나고, 체크 박스를 선택할 경우 **파라미터 그룹 변경 사항** 항목이 활성화됩니다.
+If you modify a parameter group that is already in use by a cache in the **Parameter Groups** tab, the parameter group will not be immediately applied to the caches that are using it and the nodes that belong to the cache. Instead, a **Parameter** button will appear in the cache list on the console screen, and if you select the checkbox, the **Parameter Group Changes** item will be enabled.
 
-!!! danger "주의"
-    파라미터 그룹 변경 사항 적용의 경우 해당 파라미터 그룹의 변경된 파라미터 항목에 따라 재시작이 발생할 수 있으므로 주의해야 합니다.
+!!! danger "Warning"
+    When applying parameter group changes, be careful as a restart may occur depending on the changed parameter items in that parameter group.
 
-## 고가용 재설정
+## Reset High Availability
 
 ![cache22.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache22.PNG)
-캐시의 고가용성 상태가 비정상일 경우 캐시의 상태가 **상태 이상**으로 표시되며, 캐시 목록에 **고가용성 재설정** 버튼이 노출되어 사용할 수 있습니다.
-고가용성 재설정을 수행할 경우, 고가용성과 관련된 설정을 다시 작성하거나 고가용성 노드를 재생성하는 작업이 수행됩니다.
+If the cache's high availability status is abnormal, the cache status will be displayed as **Abnormal**, and a **Reset High Availability** button will be displayed in the cache list for your use. Restting high availability reset will rewrite high availability-related settings or recreate high availability nodes.
 
-## 마이그레이션
+## Migration
 
-캐시에 속한 노드들 중에 가상 장비의 플랜드 마이그레이션이 필요한 경우, 해당 노드에 마이그레이션 버튼이 노출됩니다.
-마이그레이션 기능은 경우에 따라 서비스 중지가 발생하기 때문에 작업에 주의가 필요합니다.
+If a virtual machine needs to be migrated from one of the nodes in the cache, a Migrate button will appear on that node.
+The migration function requires caution, as it may cause service interruption in some cases.
 
-!!! tip "알아두기"
-    마스터 노드의 경우 읽기 복제본이 있다면 버튼은 노출되지만 비활성화되어 진행할 수 없습니다. 읽기 복제본 노드와 고가용성 제어 노드부터 마이그레이션을 먼저 진행하고, 마스터 변경 기능을 이용해 기존 마스터를 읽기 복제본으로 변경한 뒤 마이그레이션을 진행해야 합니다.
+!!! tip "Note"
+    For master nodes, if there are read replicas, the button will be visible but disabled and cannot be migrated. Migration must be performed first on the read replica nodes and the high-availability control node, then the existing master node must be converted to a read replica using the Change Master feature before migration can proceed.
 
-## 캐시 삭제
+## Delete Cache
 
-더 이상 사용하지 않는 캐시는 언제든 삭제할 수 있습니다. 캐시를 삭제할 경우 캐시에 속한 모든 노드가 함께 삭제됩니다. 삭제된 캐시 및 노드들은 복구할 수 없으므로 중요한 캐시는 삭제 보호 설정을 활성화하는 것을 권장합니다.
+You can delete caches that are no longer in use at any time. Deleting a cache will also delete all nodes belonging to the cache. Deleted caches and nodes cannot be recovered, so we recommend enabling deletion protection for important caches.
 
-## 백업
+## Backup
 
-장애 상황에 대비하여 캐시의 데이터를 복구할 수 있도록 미리 준비할 수 있습니다. 필요할 때마다 콘솔에서 백업을 수행하거나, 주기적으로 백업이 수행되도록 설정할 수 있습니다. 자세한 사항은 **@백업** 항목을 참고합니다.
+You can prepare in advance to recover cache data in case of a failure. You can perform backups from the console whenever needed, or schedule backups to be performed periodically. For more information, see the **@Backup** section.
 
-## 복원
+## Restoration
 
-백업을 이용하여 데이터를 복원할 수 있습니다. 복원 시, 이미 존재하는 캐시에 복원할지 새로운 캐시에 복원할지 선택할 수 있습니다. 자세한 사항은 **@백업** 내 **@복원** 항목을 참고합니다.
+You can restore data using a backup. When restoring, you can choose to restore to an existing cache or a new cache. For details, see **@Restore** in **@Backup**.
 
-## 고가용성 캐시
+## High-availability Cache
 
-EasyCache의 캐시는 마스터 노드와 동일한 리전에 읽기 복제본 노드를 추가하면 자동으로 고가용성 제어 노드가 생성되며 장애 발생 시 장애 조치를 자동으로 수행합니다.
+EasyCache's cache automatically creates a high-availability control node when you add a read replica node in the same region as the master node, and automatically performs failover in the event of a failure.
 
-!!! danger "주의"
-    고가용성 캐시를 구성하는 노드들이 사용자 설정을 공유하지 않으므로 하나의 노드에서 사용자 설정을 변경하더라도 같은 캐시에 속한 다른 노드에 전파되지 않습니다. 따라서 노드별로 사용자 설정을 다르게 했다면 장애 조치가 정상적으로 진행되지 않을 수 있으므로 주의해야 합니다.
+!!! danger "Warning"
+    Because the nodes that make up a high-availability cache do not share user settings, changes to user settings on one node will not propagate to other nodes in the cache. Therefore, if user settings differ across nodes, failover may not proceed properly, so caution is advised.
 
-### 장애 감지
+### Failure Detection
 
 ![cache24.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache24.PNG)
-마스터와 동일한 리전에 있는 모든 노드들은 마스터 노드를 감지하고 있으며, 읽기 복제본 노드를 추가할 때 입력한 마스터 노드 다운 판정 시간을 기준으로 통신 실패 여부를 결정하여 장애 조치를 수행합니다. 따라서 캐시 사용에 적합한 마스터 노드 다운 판정 시간을 설정하는 것이 중요합니다.
+All nodes in the same region as the master node detect the master node and, based on the master down after entered when adding a read replica node, determine whether communication has failed and initiate failover. Therefore, it is important to set a master down after appropriate for cache usage.
 
-### 자동 장애 조치
+### Auto Failover
 
-장애 감지를 통하여 장애 여부를 탐지했다면 노드 간의 합의에 의해 마스터와 같은 리전에 존재하는 읽기 복제본 노드 중 하나를 신규 마스터로 선출하고 기존의 마스터는 읽기 복제본으로 변경합니다.
-접속을 위한 접속 도메인 및 읽기 전용 도메인 정보가 새로운 장애 조치가 이루어진 노드를 기준으로 갱신되며, 플로팅 IP 도메인은 변경되지 않으나 플로팅 IP 도메인이 가리키는 플로팅 IP는 새로운 마스터를 가리키도록 자동으로 변경됩니다.
+If a failure is detected through failure detection, one of the read replica nodes in the same region as the master is elected as the new master through agreement between nodes, and the existing master is changed to a read replica.
+The IP information of connection domain and read-only domain for connection are updated based on the new failed-over node, and the floating IP domain does not change, but the floating IP pointed to by the floating IP domain is automatically changed to point to the new master.
 
-!!! tip "알아두기"
-    장애 조치는 마스터 노드와 같은 리전에 속한 노드들을 대상으로 수행하는 기능이므로, 다른 리전에만 읽기 복제본 노드를 추가할 경우는 자동 장애 조치를 지원하지 않습니다.
+!!! tip "Note"
+    * Failover is only supported for nodes within the same region as the master node. Automatic failover is not supported if read replicas are only added in different regions.
+    * We recommend clicking the Update Read-Only Domain button only after the failure is fully resolved to ensure the IP information is updated based on the final status of the read-only nodes.
+    * Unlike an actual failover, the read-only domain IP information is automatically updated when IP changes occur through manual master changes or other administrative functions.
 
-### 강제 복제 연결 제거
+### Remove Forced Replication Connection
 
 ![cache25.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache25.PNG)
-다른 리전에 추가한 읽기 복제본 노드의 경우 마스터 장애 시 자동 장애 조치 대상이 아닙니다. 그러나 장애 발생 시 시급히 다른 리전에 있는 읽기 복제본 노드를 사용해야 할 경우 **강제 복제 연결 제거** 기능을 사용하여 다른 리전에 있는 읽기 복제본 노드를 마스터 노드로 승격할 수 있습니다.
-**강제 복제 연결 기능 제거**를 수행할 경우 다른 리전에 기존 노드와 구분되는 개별 캐시가 새로 생성되고, 기존의 읽기 복제본 노드가 마스터 노드로 승격되며 새로운 접속 도메인이 노출됩니다.
+Read replica nodes added to other regions are not eligible for automatic failover in the event of a master failure. However, if you need to use a read replica node in another region immediately in the event of a failure, you can use the **Remove Forced Replication Connection** feature to promote a read replica node in another region to become the master node.
+**Remove Forced Replication Connection** will create a new, separate cache in another region, separate from the existing nodes, promote the existing read replica node to the master node, and expose a new connection domain.
 
-!!! tip "알아두기"
-    * 강제 복제 연결 제거를 수행할 경우 강제로 복제 연결 작업을 수행하는 것이므로 원본 리전의 캐시 및 마스터 노드 구성 정보와 불일치가 발생할 수 있습니다. 따라서 원본 리전의 장애 상황과 같은 특수한 경우에만 사용하고, 단순히 다른 리전의 읽기 복제본을 새로운 캐시로 분리하는 것이 목적이라면 일반 복제 연결 제거 기능을 사용하는 것을 권장합니다.
-    * 마스터와 같은 리전의 읽기 복제본은 복제 연결 제거 기능을 지원하지 않습니다. (추후 지원 예정)
+!!! tip "Note"
+    * Performing a forced replication connection removal can cause inconsistencies with the cache and master node configuration in the source region, as it forces a forced replication connection operation. Therefore, it should only be used in special cases, such as a failure in the source region. If your goal is simply to separate a read replica in another region to a new cache, we recommend using the regular replication connection removal feature.
+    * Read replicas in the same region as the master do not support the replication connection removal feature (to be supported).
