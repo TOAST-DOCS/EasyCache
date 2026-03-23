@@ -1,4 +1,4 @@
-# 이벤트
+## Event
 
 **Database > EasyCache > Console User Guide > Event**
 
@@ -258,7 +258,7 @@ Events represent significant occurrences triggered by Valkey or user actions. Ea
 | NODE | SENTINEL_INSTANCE_STOPPED | No | Instance stopped |
 
 
-## Event Subscription
+### Event Subscription
 
 You can subscribe to events filtered by event type, code, or source. Subscribing to an event type allows you to receive notifications for all event codes within that category. For more specific alerts, you can refine your subscription by selecting individual event codes and sources. Only project members can be selected as notification recipients. By default, notifications are sent via email; SMS alerts are sent only if a mobile number is registered with a real name.
 
@@ -269,7 +269,7 @@ You can subscribe to events filtered by event type, code, or source. Subscribing
 ❷: Select an event type. The available event codes will update based on the selected type.
 ❸: Use an Event Template to populate multiple predefined event codes at once quickly.
 ❹: Select event codes manually. If you modify the event codes while using a template, the Event Template selection will be deselected.
-❺: Select the event sources you wish to subscribe to. 
-❻: Select a user group to receive the event notifications. 
+❺: Select the event sources you wish to subscribe to.
+❻: Select a user group to receive the event notifications.
 ❼: Select a notification method under the Notification Type section.
 ❽: Set the status to Enabled or Disabled. If set to **No**, notifications will not be sent even when events occur.

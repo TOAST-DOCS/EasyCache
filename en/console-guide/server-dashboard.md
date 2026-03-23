@@ -1,106 +1,106 @@
-# 서버 대시보드
+# Server Dashboard
 
-**Database > EasyCache > 콘솔 사용 가이드 > 서버 대시보드**
+**Database > EasyCache > Console User Guide > Server Dashboard**
 
-서버 대시보드에서 성능 지표를 차트 형태로 시각화해 볼 수 있습니다. 차트는 미리 설정된 레이아웃에 따라 배치됩니다. 지표는 1분에 한 번씩 수집되며 최대 5년간 보관됩니다. 지표 데이터는 5분, 30분, 2시간, 1일 단위의 평균값으로 집계됩니다. 집계 단위별 보관 기간은 아래와 같습니다.
+Server Dashboard helps to visualize performance metrics on a chart. The charts are arranged according to a preset layout. Metrics are collected at every minute and retained for up to 5 years. Metric data are collected by the average of 5 minutes, 30 minutes, 2 hours, or 1 day. Each collecting unit provides a different retention period like below:
 
-| 집계 단위 | 보관 기간 |
+| Collecting Unit | Retention Period |
 |-------|-------|
-| 1분    | 7일    |
-| 5분    | 1개월   |
-| 30분   | 6개월   |
-| 2시간   | 2년    |
-| 1일    | 5년    |
+| 1 minute    | 7 days    |
+| 5 minutes    | 1 month   |
+| 30 minutes   | 6 months   |
+| 2 hours   | 2 years    |
+| 1 day    | 5 years    |
 
-## 레이아웃
+## Layout
 
-레이아웃을 이용해 차트의 크기와 위치를 나타낼 수 있습니다. 서비스 활성화 시 **기본 시스템 지표**와 **기본 Redis 지표**를 기본 레이아웃으로 제공합니다. 기본 레이아웃은 변경하거나 삭제할 수 없습니다. 또한 차트를 추가하거나, 추가된 차트를 변경 또는 삭제할 수 없습니다. 차트에서 기본 레이아웃에 포함되지 않은 정보를 보려면 새 레이아웃을 만들어 차트를 추가할 수 있습니다.
+You can use layouts to define the size and position of charts. When the service is activated, **Default System Metrics** and **Default Redis Metrics** are provided as default layouts. Default layouts cannot be modified or deleted. In addition, charts cannot be added to, modified in, or deleted from default layouts. To view information not included in a default layout, you can create a new layout and add charts to it.
 
 ![server-dashboard-layout](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-layout-ko.png)
 
-❶ **레이아웃 관리**를 누르면 레이아웃을 관리하는 팝업 화면이 나타납니다.
-❷ **+ 레이아웃 만들기**를 눌러 레이아웃을 생성할 수 있습니다.
-- 레이아웃 이름을 입력한 뒤 **생성**을 눌러 레이아웃을 생성합니다.
-❸ 버튼을 클릭하면 추가된 레이아웃을 변경할 수 있습니다.
-❹ 버튼을 클릭하면 추가된 레이아웃을 삭제할 수 있습니다.
+❶ Click **Manage Layout** to open the layout management pop-up.
+❷ Click **+ Create Layout** to create a layout.
+- Enter a layout name and click **Create** to create the layout.
+❸ Click the button to modify an added layout.
+❹ Click the button to delete an added layout.
 
-### 레이아웃에 차트 추가
+### Add a Chart to a Layout
 
 ![server-dashboard-chart-add](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-chart-add-ko.png)
 
-❶ 원하는 레이아웃을 선택합니다.
-❷ **+ 차트 추가**를 누르면 차트를 추가할 수 있는 팝업 화면이 나타납니다.
-❸ 체크박스를 선택하여 추가할 지표를 여러 개 선택할 수 있습니다.
-❹ 지표 이름을 클릭하면 왼쪽 미리 보기 영역에 차트가 나타납니다.
-❺ **추가**를 클릭하면 선택된 차트가 모두 추가됩니다.
+❶ Select the desired layout.
+❷ Click **+ Add Chart** to open a pop-up where you can add charts.
+❸ Select checkboxes to choose multiple metrics to add.
+❹ Click a metric name to display the chart in the preview area on the left.
+❺ Click **Add** to add all selected charts.
 
-### 레이아웃의 차트 변경 및 삭제
+### Change and Delete Layout Charts
 
 ![server-dashboard-chart-manage](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-chart-manage-ko.png)
 
-❶ 차트의 상단 영역을 클릭한 뒤 드래그 앤 드롭하여 위치를 이동할 수 있습니다.
-❷ 차트의 오른쪽 하단 영역을 드래그 앤 드롭하여 차트의 크기를 변경할 수 있습니다.
-❸ 차트의 오른쪽 상단 **x**를 클릭하면 레이아웃에서 차트가 삭제됩니다.
+❶ Click and drag the top area of a chart to move it to a different position.
+❷ Drag and drop the bottom-right area of a chart to resize it.
+❸ Click **x** in the top-right corner of a chart to remove it from the layout.
 
-## 차트
+## Chart
 
-노드의 각종 성능 지표를 차트 형태로 볼 수 있습니다. 성능 지표마다 각기 다른 형태의 차트로 구성되어 있습니다. 기본적인 시스템 지표 이외에 Redis에서 제공하는 각종 성능 지표를 차트로 제공하고 있습니다. 차트별로 확인할 수 있는 지표는 아래와 같습니다.
+You can view various performance metrics of nodes in chart format. The format of chart is different for each performance metric. In addition to the basic system metrics, the performance metrics provided by Redis are provided as charts. The following are the metrics:
 
-| 차트                 | 지표(단위)                                                                                           | 비고                                |
+| Chart                 | Metric (Unit)                                                                                           | Note                                |
 |--------------------|--------------------------------------------------------------------------------------------------|-----------------------------------|
-| CPU 사용률            | cpu used (%)                                                                                     |                                   |
-| CPU 상세             | cpu user (%)<br/>cpu system (%)<br/>cpu nice (%)<br/>cpu IO wait (%)                             |                                   |
-| CPU 평균 부하          | 1m<br/>5m<br/>15m                                                                                |                                   |
-| 메모리 사용량            | memory used (%)                                                                                  |                                   |
-| 메모리 상세             | memory used (bytes)<br/>memory free (bytes)<br/>memory cached (bytes)<br/>memory buffers (bytes) |                                   |
-| 스왑 사용량             | swap used (bytes)<br> swap total (bytes)                                                         |                                   |
-| 스토리지 사용량        | storage used (%)                                                                                 |                                   |
-| 스토리지 남은 사용량     | storage free (%)                                                                                 |                                   |
-| 스토리지 IO         | disk read (bytes)<br> disk write (bytes)                                                         |                                   |
-| 네트워크 데이터 송수신       | nic incoming (bytes)<br> nic outgoing (bytes)                                                    | Redis에서 사용하는 기본적인 네트워크 전송이 발생합니다. |
-| 스토리지 결함        | disk fault status                                                                                | 비정상: 0, 정상: 1                     |
-| Redis 메모리 사용량      | Redis 메모리 사용량(bytes)                                                                            |                                   |
-| Redis 메모리 사용량(rss) | Redis 메모리 사용량 rss (bytes)                                                                       |                                   |
-| 연결된 클라이언트 수        | 연결된 클라이언트 수(counts)                                                                             |                                   |
-| 연결된 복제 수           | 연결된 복제 수(counts)                                                                                |                                   |
-| 블록된 클라이언트 수        | 블록된 클라이언트 수(counts)                                                                             |                                   |
-| 메모리 파편화 비율         | 메모리 파편화 비율(%)                                                                                   |                                   |
-| 초당 처리한 명령 수        | 초당 처리한 명령 수(ops/1sec)                                                                           |                                   |
-| 입력 바이트             | 입력 바이트(bytes)                                                                                   |                                   |
-| 출력 바이트             | 출력 바이트(bytes)                                                                                   |                                   |
-| 만료된 키 수(expired)   | 만료된 키 수(counts)                                                                                 |                                   |
-| 삭제된 키 수(evicted)   | 삭제된 키 수(counts)                                                                                 |                                   |
-| 조회 성공 수            | 조회 성공 수(counts)                                                                                 |                                   |
-| 조회 실패 수            | 조회 실패 수(counts)                                                                                 |                                   |
-| 조회 성공률             | 조회 성공률(%)                                                                                       |                                   |
-| 키 개수               | 키 개수(counts)                                                                                    |                                   |
-| get 실행 횟수          | get 실행 횟수(counts)                                                                               |                                   |
-| hget 실행 횟수         | hget 실행 횟수(counts)                                                                              |                                   |
+| CPU utilization            | CPU used (%)                                                                                     |                                   |
+| CPU details             | CPU user (%)<br/>CPU system (%)<br/>CPU Nice (%)<br/>CPU IO wait (%)                             |                                   |
+| CPU average load          | 1 m<br/>5 m<br/>15 m                                                                                |                                   |
+| Memory usage            | Memory used (%)                                                                                  |                                   |
+| Memory details             | Memory used (bytes)<br/>Memory free (bytes)<br/>Memory cached (bytes)<br/>Memory buffers (bytes) |                                   |
+| Swap usage             | Swap used (bytes)<br> Swap total (bytes)                                                         |                                   |
+| Storage usage        | Storage used (%)                                                                                 |                                   |
+| Remaining storage usage     | Storage free (%)                                                                                 |                                   |
+| Storage IO         | Disk read (bytes)<br> Disk write (bytes)                                                         |                                   |
+| Network data transfer       | nic incoming (bytes)<br> nic outgoing (bytes)                                                    | The basic network data transfer used by Redis occurs. |
+| Storage defects        | Disk fault status                                                                                | Abnormal: 0, normal: 1                     |
+| Redis memory usage      | Redis memory usage (bytes)                                                                            |                                   |
+| Redis memory usage (rss) | Redis memory usage rss (bytes)                                                                       |                                   |
+| Number of connected clients        | Number of connected clients (counts)                                                                             |                                   |
+| Number of connected replicas           | Number of connected replicas (counts)                                                                                |                                   |
+| Number of blocked clients        | Number of blocked clients (counts)                                                                             |                                   |
+| Memory fragmentation rate         | Memory fragmentation rate (%)                                                                                   |                                   |
+| Commands processed per second        | Commands processed per second (ops/1sec)                                                                           |                                   |
+| Input bytes             | Input bytes (bytes)                                                                                   |                                   |
+| Output bytes             | Output bytes (bytes)                                                                                   |                                   |
+| Number of expired keys (expired)   | Number of expired keys (counts)                                                                                 |                                   |
+| Number of keys deleted (evicted)   | Number of keys deleted (counts)                                                                                 |                                   |
+| Successful lookups            | Successful lookups (counts)                                                                                 |                                   |
+| Failed lookups            | Failed lookups (counts)                                                                                 |                                   |
+| Lookup success rate             | Lookup success rate (%)                                                                                       |                                   |
+| Number of keys               | Key counts (counts)                                                                                    |                                   |
+| get execution count          | get execution count (counts)                                                                               |                                   |
+| hget execution count         | Number of hget executions (counts)                                                                              |                                   |
 | get usec/get calls | get usec/get calls (counts)                                                                      |                                   |
-| set 실행 횟수          | set 실행 횟수(counts)                                                                               |                                   |
-| hset 실행 횟수         | hset 실행 횟수(counts)                                                                              |                                   |
+| set execution count          | set execution count (counts)                                                                               |                                   |
+| hset execution count         | HSET execution count (counts)                                                                              |                                   |
 | set usec/get calls | set usec/get calls (counts)                                                                      |                                   |
 
-## 서버 그룹
+## Server Group
 
-서버 그룹을 이용하면 하나의 차트에서 여러 노드의 성능 지표를 확인할 수 있습니다. 서버 그룹에 속한 노드별로 성능 지표가 하나의 차트에 나타납니다. 여러 개의 성능 지표로 이루어진 차트는 서버 그룹에서는 모두 개별 성능 지표로 변경됩니다.
+Using server groups, you can view performance metrics for multiple nodes in a single chart. Performance metrics for each node in a server group are displayed in a single chart. Charts consisting of multiple performance metrics are all converted to individual performance metrics in a server group.
 
-### 서버 그룹 생성
+### Create a Server Group
 
 ![server-dashboard-group-add](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-group-add-ko.png)
 
-❶ **+ 그룹 추가**를 클릭하면 그룹을 생성할 수 있는 팝업 화면이 나타납니다.
-❷ 서버 그룹에 추가할 노드를 선택합니다.
+❶ Click **+ Add Group** to open a pop-up where you can create a group.
+❷ Select the nodes to add to the server group.
 
-### 서버 그룹 설정
+### Configure a Server Group
 
-서버 대시보드 왼쪽의 서버 목록에 노드와 서버 그룹이 함께 나타납니다.
+Nodes and server groups are displayed together in the server list on the left side of the server dashboard.
 
 ![server-dashboard-group-manage](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-group-manage-ko.png)
 
-❶ **+**, **-**를 눌러 서버 그룹을 펼치거나 닫을 수 있습니다.
-❷ 서버 그룹에 속한 노드를 클릭하면 차트에 표시될 색상을 변경할 수 있는 색상 선택 팝업이 나타납니다.
+❶ Click **+** or - to expand or collapse a server group.
+❷ Click a node in a server group to open a color selection pop-up where you can change the color displayed in the chart.
 
 ![server-dashboard-group-menu](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-group-menu-ko.png)
 
-❶ 서버 목록의 각 항목 오른쪽에 표시되는 더보기 아이콘을 클릭해 서버 그룹을 변경하거나 삭제할 수 있습니다.
+❶ Click Learn More icon displayed on the right side of each item in the server list to modify or delete a server group.
