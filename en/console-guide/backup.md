@@ -1,56 +1,56 @@
-# 백업
+# Backup
 
-**Database > EasyCache > 콘솔 사용 가이드 > 백업**
+**Database > EasyCache > Console User Guide > Backup**
 
-장애 상황에 대비하여 캐시를 복구할 수 있도록 미리 준비할 수 있습니다. 필요할 때마다 콘솔에서 백업을 수행하거나, 주기적으로 백업이 수행되도록 설정할 수 있습니다. 백업이 수행되는 동안에는 캐시의 마스터 노드의 성능 저하가 발생할 수 있습니다. 서비스에 영향을 주지 않기 위해 서비스의 부하가 적은 시간에 백업할 것을 권장합니다. 백업으로 인한 성능 저하를 원치 않을 경우 고가용성 구성을 사용할 수도 있습니다.
+You can prepare in advance to recover the cache in case of failure. You can perform backups through the web console whenever necessary, and you can configure it to perform backups periodically. During backup, the cache performance on which the backup runs may degrade. To avoid affecting service, it is better to perform backups when the service is under low load. If you do not want the backup to degrade performance, you can use a high-availability configuration.
 
-!!! tip "알아두기"
-    Valkey는 백업을 수행할 때 .rdb 파일을 생성합니다. 생성한 백업을 이용해 복원하려면 백업과 호환되는 엔진 버전의 캐시를 사용할 것을 권장합니다.
+!!! TIP "Note"
+    Valkey creates an .rdb file when performing a backup. To restore using a created backup, it is recommended to use a cache with an engine version compatible with the backup.
 
-## 백업 종류
+## Backup Type
 
-백업은 수동 백업과 자동 백업을 제공합니다.
+Backup offers manual and automatic backups.
 
-### 수동 백업
+### Manual Backup
 
-콘솔에서 수동으로 백업을 수행해 특정 시점의 캐시의 데이터를 영구히 저장할 수 있습니다. 수동 백업은 자동 백업과 달리 명시적으로 삭제하지 않는 한 캐시가 삭제되어도 함께 삭제되지 않습니다.
-수동 백업 생성 시에는 백업 이름을 지정해야 하며, 다음과 같은 제약 사항이 있습니다.
-* 백업 이름은 1~100자 사이의 영문자, 숫자, 일부 기호(-, _, .)만 입력할 수 있으며, 첫 번째 글자는 영문자만 사용할 수 있습니다.
+You can perform a manual backup from the console to permanently save a cache data at a specific point in time. Unlike automatic backups, manual backups are not deleted when the cache is deleted unless you explicitly delete them.
+When creating a manual backup, you must specify a name for the backup, with the following limitations
+* Backup names are alphabetic, numeric, and - _ between 1 and 100 Only, and the first character has to be an alphabet.
 
 ![backup1.PNG](https://static.toastoven.net/prod_easycache/25.09.27/backup1.PNG)
-#### 수동 백업 생성하기
+#### Create a Manual Backup
 
-❶ 캐시 목록에서 백업할 캐시를 선택한 뒤 **백업**을 클릭하여 수동으로 백업을 생성할 수 있습니다.
-❷ 백업 목록에서 **백업 생성**을 클릭하고 백업할 캐시를 지정하여 수동으로 백업을 생성할 수 있습니다.
+❶ You can create a full backup manually by selecting the cache to back up from the Cache list and clicking **Backup**.
+❷ You can create a backup manually by clicking **Create Backup** in the backup list and specifying the cache to back up.
 
-### 자동 백업
-수동으로 백업을 수행하는 경우 외에도, 복원 작업을 위해 필요한 경우 또는 예정된 자동 백업 설정에 따라 자동 백업이 수행될 수 있습니다.
+### Automatic Backup
+In addition to performing backups manually, automatic backups can occur when required for restore operations or based on the scheduled automatic backup settings.
 
-#### 자동 백업 설정하기
-캐시 생성 및 수정 시 백업에 적용될 설정 항목들을 지정할 수 있습니다.
+#### Set Automatic Backup
+When creating and modifying caches, you can specify settings that will be applied to backups.
 
 ![backup2.PNG](https://static.toastoven.net/prod_easycache/25.09.27/backup2.PNG)
 
-##### 자동 백업 허용
-자동 백업을 허용하지 않으면 자동 백업을 수행하지 않으며, 아래의 자동 백업 관련 항목들에 대해 설정이 불가능합니다.
+##### Allow Automatic Backup
+If automatic backup is not enabled, automatic backups are not performed and the automatic backup settings below cannot be configured.
 
-##### 백업 보관 기간(일)
-자동 백업을 백업 스토리지에 저장하는 기간을 설정합니다. 최대 730일까지 보관할 수 있으며, 자동 백업 보관 기간이 변경되면 보관 기간이 지난 자동 백업 파일은 바로 삭제됩니다.
+##### Backup Retention Period (day)
+Sets the time period for storing automatic backups on storage. It can be kept for up to 730 days, and if the automatic backup archive period changes, the expired automatic backup files will be deleted immediately.
 
-##### 자동 백업 재시도 횟수
-백업 당시의 캐시 부하 또는 여러 다양한 이유로 자동 백업이 실패한 경우 재시도하도록 설정할 수 있습니다. 최대 10회까지 재시도할 수 있습니다. 재시도 횟수가 남아 있더라도 자동 백업 수행 시간 설정에 따라 재시도하지 않을 수 있습니다.
+##### Number of Automatic Backup Retries
+You can set the automatic backup to retry if it fails due to cache load at the time of backup or for other various reasons. You can retry a maximum of 10 times. Depending on the automatic backup run time setting, you might not try again even if there are still more retries.
 
-##### 자동 백업 시간 예약
-백업이 자동으로 수행되는 시간을 설정할 수 있습니다. 백업 시작 시각과 백업 윈도우로 구성됩니다. 백업 수행 시간은 겹치지 않게 여러 번 설정할 수 있습니다. 백업 시작 시각을 기준으로 백업 윈도우 안의 임의의 시점에서 백업을 수행합니다. 백업 윈도우는 백업의 총 수행 시간과는 관련이 없습니다. 백업에 걸리는 시간은 캐시의 메모리 사용량 크기에 비례하며, 서비스 부하에 따라 달라집니다. 백업이 실패할 경우 백업 윈도우를 넘지 않았다면 백업 재시도 횟수에 따라 백업을 다시 시도합니다.
+##### Scheduled Automatic Backup Time
+You can set the time at which backups are performed automatically. The setting consists of a backup start time and a backup window. You can configure multiple backup times as long as they do not overlap. Backups are performed at a random point within the backup window based on the backup start time. The backup window is not related to the total time required to complete a backup. The time required for a backup is proportional to the memory usage of the cache and varies depending on the service load. If a backup fails and the backup window has not been exceeded, the backup is retried according to the number of backup retries configured.
 
-!!! tip "알아두기"
-    이전 백업이 완료되지 않는 등의 상황에서는 백업이 수행되지 않을 수 있습니다.
+!!! tip "Note"
+    Backups may not be performed in some situations, such as when a previous backup fails to complete.
 
-## 백업 스토리지 및 과금
-모든 백업 파일은 내부 백업 스토리지에 업로드하여 저장합니다. 수동 백업의 경우 별도로 삭제하기 전까지 영구히 저장되며 백업 용량에 따라 백업 스토리지 과금이 발생합니다. 자동 백업의 경우 설정한 보관 기간만큼 저장되며 백업 파일의 용량만큼 과금합니다. 백업 파일이 저장된 내부 백업 스토리지에 직접 접근할 수 없으며, 백업 파일이 필요한 경우 캐시의 데이터 내보내기 기능을 사용하여 NHN Cloud의 오브젝트 스토리지로 RDB 파일을 내보낼 수 있습니다.
+## Backup Storage and Pricing
+All backup files are uploaded to the internal backup storage and stored. For manual backups, they are stored permanently until you delete them separately, and backup storage charges are incurred depending on the backup capacity. For automatic backups, it is stored for the set retention period and charges for the full size of the automatic backup file, which exceeds the storage size of the DB instance. If you do not have direct access to the internal backup storage where the backup file is stored, and when you need backup file, you can export the backup file to the object storage in NHN Cloud.
 
-## 복원
-백업을 이용하여 원하는 시점으로 데이터를 복원할 수 있습니다. 복원 시 기존 캐시에 복원하거나 새로운 캐시를 만들어 복원하기를 선택할 수 있습니다. 백업을 수행한 원본 캐시와 동일한 엔진 버전을 사용하는 캐시로 복원할 수 있습니다. 외부의 RDB 파일을 이용해 복원하려면 같은 리전의 NHN Cloud 오브젝트 스토리지에 RDB 파일을 업로드한 뒤 원하는 캐시의 데이터 가져오기 기능을 사용할 수 있습니다.
+## Restore
+You can restore data to any point in time using a backup. When restoring, you can choose to restore to an existing cache or create a new cache for restoration. You can restore to a cache that uses the same engine version as the source cache from which the backup was performed. To restore using an external RDB file, upload the RDB file to NHN Cloud Object Storage in the same region, and then use the data import feature of the desired cache.
 
-!!! tip "알아두기"
-    복원할 캐시의 메모리 또는 Max Memory(MB) 값이 '백업의 백업 메모리 용량'보다 작거나, 원본 캐시 파라미터 그룹과 다른 파라미터 그룹을 사용할 경우 복원에 실패할 수 있습니다.
+!!! TIP "Note"
+    Restoration may fail if the memory or Max Memory (MB) value of the cache to be restored is less than the backup memory capacity of the backup, or if a parameter group different from the source cache parameter group is used.
