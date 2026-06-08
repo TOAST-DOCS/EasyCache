@@ -11,6 +11,8 @@ You can prepare in advance to recover the cache in case of failure. You can perf
 
 Backup offers manual and automatic backups.
 
+<a id="manual-backup"></a>
+
 ### Manual Backup
 
 You can perform a manual backup from the console to permanently save a cache data at a specific point in time. Unlike automatic backups, manual backups are not deleted when the cache is deleted unless you explicitly delete them.
@@ -18,13 +20,21 @@ When creating a manual backup, you must specify a name for the backup, with the 
 * Backup names are alphabetic, numeric, and - _ between 1 and 100 Only, and the first character has to be an alphabet.
 
 ![backup1.PNG](https://static.toastoven.net/prod_easycache/25.09.27/backup1.PNG)
+<a id="create-a-manual-backup"></a>
+
 #### Create a Manual Backup
 
 ❶ You can create a full backup manually by selecting the cache to back up from the Cache list and clicking **Backup**.
 ❷ You can create a backup manually by clicking **Create Backup** in the backup list and specifying the cache to back up.
 
+##### 수동 백업 생성하기
+
+<!-- TODO: translate -->
+
 ### Automatic Backup
 In addition to performing backups manually, automatic backups can occur when required for restore operations or based on the scheduled automatic backup settings.
+
+<a id="set-automatic-backup"></a>
 
 #### Set Automatic Backup
 When creating and modifying caches, you can specify settings that will be applied to backups.
@@ -33,6 +43,34 @@ When creating and modifying caches, you can specify settings that will be applie
 
 ##### Allow Automatic Backup
 If automatic backup is not enabled, automatic backups are not performed and the automatic backup settings below cannot be configured.
+
+###### 자동 백업 허용
+
+<!-- TODO: translate -->
+
+###### 백업 보관 기간(일)
+
+<!-- TODO: translate -->
+
+###### 자동 백업 재시도 횟수
+
+<!-- TODO: translate -->
+
+###### 자동 백업 시간 예약
+
+<!-- TODO: translate -->
+
+<a id="section-1"></a>
+
+### 백업 스토리지 및 과금
+
+<!-- TODO: translate -->
+
+<a id="section-2"></a>
+
+### 복원
+
+<!-- TODO: translate -->
 
 ##### Backup Retention Period (day)
 Sets the time period for storing automatic backups on storage. It can be kept for up to 730 days, and if the automatic backup archive period changes, the expired automatic backup files will be deleted immediately.
