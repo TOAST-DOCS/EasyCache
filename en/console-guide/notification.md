@@ -4,7 +4,13 @@
 
 You can receive notifications about performance metrics through notification groups. Select the **Notification Type** and **Enabled** status, then specify the node to monitor and the user group to receive notifications. Set the thresholds and conditions for performance metrics to receive notifications through the **Monitoring Settings**. When the set metrics meet the conditions in the Monitoring Settings, the associated user group will be notified. Notifications are sent via SMS or email, depending on the notification type set for the notification group.
 
-### Create a Notification Group
+## Notification
+
+**Database > EasyCache > Console User Guide > Notifications**
+
+You can receive notifications about performance metrics by using notification groups. Select the **notification type** and **activation status**, then specify the target nodes to monitor and the user group to receive notifications. In **Monitoring Settings**, set the threshold values and conditions for the performance metrics to receive notifications. When the configured metrics meet the conditions of the monitoring settings, notifications are sent to the connected user group. Notifications are sent via SMS or email according to the notification type set in the notification group.
+
+#### Create a Notification Group
 
 ![notification1.PNG](https://static.toastoven.net/prod_easycache/25.09.27/notification1.PNG)
 
@@ -14,11 +20,11 @@ You can receive notifications about performance metrics through notification gro
 ❹: Select the node to monitor.
 ❺: Select the user group to receive notifications.
 
-## Monitoring Settings
+### Monitoring Settings
 
 The monitoring settings consist of monitoring items, comparison method, threshold, and duration. It compares the performance metric value of a monitoring item against the threshold to determine whether the condition is met. If the condition is continuously met for at least the specified duration, a notification is sent. For example, if the CPU utilization threshold is over 90% and the duration is 5 minutes, users in the user group are notified when the node linked to the notification group's CPU utilization is over 90% for over 5 minutes. If CPU utilization is over 90% but falls below 90% within 5 minutes, no notification is sent.
 
-### Monitoring Settings Items
+#### Monitoring Settings Items
 
 The following performance metric topics can be monitored:
 
@@ -69,7 +75,7 @@ The following performance metric topics can be monitored:
 | REDIS | REDIS_DELTA_CMDSTAT_HGET_CALLS |  |  
 | REDIS | REDIS_DELTA_CMDSTAT_HSET_CALLS |  |  
 
-### Add Monitoring Setting
+#### Add Monitoring Setting
 
 ![notification2.PNG](https://static.toastoven.net/prod_easycache/25.09.27/notification2.PNG)
 
@@ -77,21 +83,21 @@ The following performance metric topics can be monitored:
 ❷ Click **Add Monitoring Settings** to add a new monitoring setting.
 ❸ Enter the item to monitor, comparison method, threshold, and duration, then click **Add**.
 
-### Change and Delete Monitoring Settings
+#### Change and Delete Monitoring Settings
 
 ![notification3.PNG](https://static.toastoven.net/prod_easycache/25.09.27/notification3.PNG)
 
 ❶ Click the button to modify an added monitoring settings.
 ❷ Click the button to delete an added monitoring settings.
 
-## User Group
+### User Group
 
 Users who receive notifications can be managed in groups. The notification target must be registered as a project member. If the users in the user group are excluded from the project members, they will not be notified, even if they belong to the user group.
 
 !!! danger "Caution"
     If there is no mobile phone information because a user did not complete real-name verification, the user will not receive SMS notifications.
 
-### Create a User Group
+#### Create a User Group
 
 ![notification4.PNG](https://static.toastoven.net/prod_easycache/25.09.27/notification4.PNG)
 
@@ -101,7 +107,7 @@ Users who receive notifications can be managed in groups. The notification targe
 ❹ Click **Add** to display the project members that can be added to the notification targets.
 ❺ Click **Confirm** to create the user group. 
 
-### Modify and Delete a User Group
+#### Modify and Delete a User Group
 
 ![notification5.PNG](https://static.toastoven.net/prod_easycache/25.09.27/notification5.PNG)
 
