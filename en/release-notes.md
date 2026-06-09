@@ -50,6 +50,16 @@
 - Fixed an issue where emails were not sent when restarting EasyCache for hypervisor maintenance
 - Fixed an issue where restarting EasyCache for hypervisor maintenance failed under certain conditions
 
+### July 29, 2025
+
+<!-- TODO: translate body -->
+
+#### Bug Fixes
+
+- Fixed an issue where a "Cannot find tenant resources" error message was displayed for a short time immediately after product activation.
+- Fixed an issue where emails related to EasyCache restart due to hypervisor maintenance were not being sent.
+- Fixed an issue where EasyCache restart due to hypervisor maintenance failed under certain conditions.
+
 ### April 29, 2025
 
 #### Added Features
@@ -215,6 +225,10 @@
 ### October 11, 2022
 
 - Changed the domain for replication groups to connect from easycache.cloud.toast.com to easycache.nhncloudservice.com
+
+#### Feature Updates
+
+- Changed the access domain for replication groups from easycache.cloud.toast.com to easycache.nhncloudservice.com.
 
 ### February 22, 2022
 
