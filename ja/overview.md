@@ -1,3 +1,4 @@
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (overview section not present in ko outline) -->
 ## Database > EasyCache > 概要
 NHN Cloud EasyCacheは、ValkeyまたはRedis(REmote DIctionary Server)をクラウド環境で提供するサービスです。 
 簡単な設定で高可用性のインメモリキャッシュサーバーを利用できます。
@@ -6,37 +7,45 @@ NHN Cloud EasyCacheは、ValkeyまたはRedis(REmote DIctionary Server)をクラ
 
 *  EasyCacheはユーザーのComputeおよびNetworkのサービスを有効にすると使用できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### レプリケーショングループ
 
 * 必要な時に即時に作成できるインメモリキャッシュサーバーグループです。 
 * 管理機能を使用できます。
 * 証明書を利用して安全に使用できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### モニタリング
 
 * サーバーのキャッシュ性能をモニタリングするために必要な測定値をグラフで確認できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### バックアップ
 * メモリデータを毎日1回、指定した時間に自動的にバックアップできます。
 * メモリデータを好きなタイミングで即時に手動でバックアップできます。
 * 安全な外部ストレージに保存します。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### プロファイル設定
 
 * Valkey及びRedisサーバーの設定情報をプロフィールとして管理できます。
 * 基本(default)プロフィールとユーザープロフィールのいずれかを設定できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### 通知
 
 * レプリケーショングループのイベントとレプリケーショングループのモニタリングの通知を受け取れます。
 * イベントとモニタリングのしきい値設定を管理できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (specific feature subsection not present in ko outline) -->
 ### イベント
 
 * レプリケーショングループとノードの状態情報を検索、確認できます。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (terminology section not present in ko outline) -->
 ## 用語説明
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (term definition subsection not present in ko outline) -->
 ### レプリケーショングループ
 
 * レプリケーショングループはStandaloneとReplicationタイプで提供します。
@@ -50,10 +59,12 @@ NHN Cloud EasyCacheは、ValkeyまたはRedis(REmote DIctionary Server)をクラ
 * Masterは読み込み、書き込みが可能な一般的なインスタンスです。
 * ReplicaはMasterをリアルタイムに複製(replication)するインスタンスです。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (term definition subsection not present in ko outline) -->
 ### アベイラビリティゾーン
 
 * レプリケーショングループが作成される論理的な領域を意味します。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (term definition subsection not present in ko outline) -->
 ### Floating IP
 
 * 外部と通信するためのグローバルIPです。
@@ -61,6 +72,7 @@ NHN Cloud EasyCacheは、ValkeyまたはRedis(REmote DIctionary Server)をクラ
 * Floating IPが接続されたインスタンスのValkeyは、パブリックドメインを通して外部から接続できます。
 * Floating IPは、作成すると即時にValkeyインスタンスとは別途料金がかかります。
 
+<!-- pre-align: ko에 대응 섹션 없음 — 검토 필요 (term definition subsection not present in ko outline) -->
 ### 高可用性(自動HA)
 
 * 高可用性機能を使用すると、レプリケーショングループのmasterを監視し、障害を検知して自動的にフェイルオーバー(failover)を実行します。サービスのダウンタイム(稼働停止時間)を最小限に抑えることができます。
