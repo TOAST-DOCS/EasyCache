@@ -50,6 +50,14 @@
 - Fixed an issue where emails were not sent when restarting EasyCache for hypervisor maintenance
 - Fixed an issue where restarting EasyCache for hypervisor maintenance failed under certain conditions
 
+### July 29, 2025
+
+<!-- TODO: translate body -->
+
+#### Bug Fixes
+
+<!-- TODO: translate body -->
+
 ### April 29, 2025
 
 #### Added Features
@@ -215,6 +223,10 @@
 ### October 11, 2022
 
 - Changed the domain for replication groups to connect from easycache.cloud.toast.com to easycache.nhncloudservice.com
+
+#### Feature Updates
+
+<!-- TODO: translate body -->
 
 ### February 22, 2022
 
