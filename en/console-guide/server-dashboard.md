@@ -12,7 +12,21 @@ Server Dashboard helps to visualize performance metrics on a chart. The charts a
 | 2 hours   | 2 years    |
 | 1 day    | 5 years    |
 
-## Layout
+## Server Dashboard
+
+**Database > EasyCache > Console User Guide > Server Dashboard**
+
+You can visualize performance metrics in chart format on the server dashboard. Charts are arranged according to predefined layouts. Metrics are collected every minute and are retained for up to 5 years. Metric data is aggregated as average values in units of 5 minutes, 30 minutes, 2 hours, and 1 day. The retention period for each aggregation unit is as follows:
+
+| Aggregation unit | Retention period |
+|-------|-------|
+| 1 minute    | 7 days    |
+| 5 minutes    | 1 month   |
+| 30 minutes   | 6 months   |
+| 2 hours   | 2 years    |
+| 1 day    | 5 years    |
+
+### Layout
 
 You can use layouts to define the size and position of charts. When the service is activated, **Default System Metrics** and **Default Redis Metrics** are provided as default layouts. Default layouts cannot be modified or deleted. In addition, charts cannot be added to, modified in, or deleted from default layouts. To view information not included in a default layout, you can create a new layout and add charts to it.
 
@@ -24,7 +38,7 @@ You can use layouts to define the size and position of charts. When the service 
 ❸ Click the button to modify an added layout.
 ❹ Click the button to delete an added layout.
 
-### Add a Chart to a Layout
+#### Add a Chart to a Layout
 
 ![server-dashboard-chart-add](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-chart-add-ko.png)
 
@@ -34,7 +48,7 @@ You can use layouts to define the size and position of charts. When the service 
 ❹ Click a metric name to display the chart in the preview area on the left.
 ❺ Click **Add** to add all selected charts.
 
-### Change and Delete Layout Charts
+#### Change and Delete Layout Charts
 
 ![server-dashboard-chart-manage](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-chart-manage-ko.png)
 
@@ -42,7 +56,7 @@ You can use layouts to define the size and position of charts. When the service 
 ❷ Drag and drop the bottom-right area of a chart to resize it.
 ❸ Click **x** in the top-right corner of a chart to remove it from the layout.
 
-## Chart
+### Chart
 
 You can view various performance metrics of nodes in chart format. The format of chart is different for each performance metric. In addition to the basic system metrics, the performance metrics provided by Redis are provided as charts. The following are the metrics:
 
@@ -81,18 +95,18 @@ You can view various performance metrics of nodes in chart format. The format of
 | hset execution count         | HSET execution count (counts)                                                                              |                                   |
 | set usec/get calls | set usec/get calls (counts)                                                                      |                                   |
 
-## Server Group
+### Server Group
 
 Using server groups, you can view performance metrics for multiple nodes in a single chart. Performance metrics for each node in a server group are displayed in a single chart. Charts consisting of multiple performance metrics are all converted to individual performance metrics in a server group.
 
-### Create a Server Group
+#### Create a Server Group
 
 ![server-dashboard-group-add](https://static.toastoven.net/prod_rds_postgres/20240611/server-dashboard-group-add-ko.png)
 
 ❶ Click **+ Add Group** to open a pop-up where you can create a group.
 ❷ Select the nodes to add to the server group.
 
-### Configure a Server Group
+#### Configure a Server Group
 
 Nodes and server groups are displayed together in the server list on the left side of the server dashboard.
 
