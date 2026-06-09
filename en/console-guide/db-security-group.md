@@ -14,10 +14,26 @@ DB Security Group consists of a name, a description, and multiple DB security ru
 
 * DB Security Group names can only contain between 1 and 100 uppercase and lowercase English letters, numbers, and certain symbols (-, \_, .). The first character must be an English letter.
 
-### Apply DB Security Group
+## DB Security Group
+
+**Database > EasyCache > Console User Guide > DB Security Groups**
+
+DB security groups are used to protect caches and nodes by collectively controlling inbound and outbound traffic for nodes in a cache. They use a 'positive security model' that allows traffic specified by rules and blocks all other traffic. If you don't attach a DB security group to a cache, all inbound and outbound traffic is blocked. Even if you create a DB security group, the rules don't apply unless you attach it to a cache. You can apply multiple DB security groups to a cache. The main characteristics of DB security groups are as follows:
+
+* DB security groups operate as 'stateful', so sessions established through DB security rules are allowed even without opposite direction rules.
+* For example, if the first packet destined for a node on TCP 3306 passes through an 'inbound TCP PORT 3306' rule, packets sent from the node with TCP 3306 port as the source are not blocked.
+* However, if no packets matching the rule arrive for a certain period and the session expires, packets in the opposite direction are also blocked.
+* It's more efficient to specify ranges for DB security rules rather than adding them one by one. Performance degradation can occur when DB security rules increase.
+Traffic that doesn't match the session state can be blocked.
+
+DB security groups consist of a name, description, and multiple DB security rules. DB security group names have the following constraints:
+
+* DB security group names can contain only letters, numbers, and some symbols (-, _, .) between 1 and 100 characters, and the first character must be a letter.
+
+#### Apply DB Security Group
 You can select a DB Security Group to apply when creating a cache. All nodes in the cache are affected by the selected DB Security Group. Multiple DB Security Groups can be applied to a cache. The rules of all applied DB Security Groups are applied to the cache. You can freely modify the selection on the Modify Cache screen.
 
-## DB Security Rule
+### DB Security Rule
 You can create multiple DB security rules in a single DB Security Group. When a DB Security Group is configured for a cache, all DB security rules created in that DB Security Group are applied to all nodes belonging to the cache.
 
 | Item | Description |
@@ -28,5 +44,5 @@ You can create multiple DB security rules in a single DB Security Group. When a 
 | Remote | You can specify an IP address range. If the rule direction is Outbound, the destination is the remote. If the direction is Inbound, the source is the remote. Depending on the rule direction, the source and destination of the traffic are compared against the configured IP address or range. |
 | Description | You can add a description of the DB Security Group rule. |
 
-### Change DB Security Rule
+#### Change DB Security Rule
 When changes are made, such as creating, modifying, or deleting DB security rules, the changes are applied sequentially to the caches associated with the DB Security Group and to the nodes that belong to the caches. You cannot add new DB security rules to a DB Security Group, or modify or delete other DB security rules, until the changes have been applied to all caches and nodes associated with the DB Security Group.
