@@ -1,3 +1,5 @@
+<!-- pre-align:aligned sig=ec416b7f4d48 -->
+
 # EasyCache 개요
 **Database > EasyCache > 개요**
 NHN Cloud EasyCache는 Valkey를 클라우드 환경에서 제공하는 서비스입니다. 간단한 설정만으로 Valkey가 설치된 인메모리 캐시 서버를 사용할 수 있습니다.
