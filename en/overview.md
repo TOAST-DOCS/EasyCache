@@ -1,8 +1,10 @@
-<!-- pre-align:aligned sig=ec416b7f4d48 -->
+<!-- pre-align:aligned sig=555eb5f183a2 -->
 
 # EasyCache Overview
 **Database > EasyCache > Overview**
 NHN Cloud EasyCache provides Valkey in the cloud environment. You can use an in-memory cache server with Valkey installed with simple settings.
+
+<a id="main-features"></a>
 
 ## Main features
 - Allows you to use a Valkey in-memory cache with the specifications you want.

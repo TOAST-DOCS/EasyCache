@@ -1,4 +1,6 @@
-<!-- pre-align:aligned sig=610cfce5529f -->
+<!-- pre-align:aligned sig=87cf043e706f -->
+
+<a id="server-dashboard"></a>
 
 ## サーバーダッシュボード
 

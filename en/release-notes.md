@@ -1,4 +1,6 @@
-<!-- pre-align:aligned sig=2c183bd2b2f1 -->
+<!-- pre-align:aligned sig=c5f4c2c6cf1e -->
+
+<a id="easycache-release-notes"></a>
 
 ## EasyCache Release Notes
 **Database > EasyCache > Release Notes**

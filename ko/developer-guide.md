@@ -1,4 +1,6 @@
-<!-- pre-align:aligned sig=b7597aadf0a8 -->
+<!-- pre-align:aligned sig=6728d2d0abfe -->
+
+<a id="database-easycache-developer-guide"></a>
 
 ## Database > EasyCache > 개발자 가이드
 

@@ -1,4 +1,6 @@
-<!-- pre-align:aligned sig=79fb5966bd1d -->
+<!-- pre-align:aligned sig=2bff6bc6a8a6 -->
+
+<a id="notification"></a>
 
 ## 通知
 
