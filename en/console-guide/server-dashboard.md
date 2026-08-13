@@ -1,4 +1,4 @@
-<!-- pre-align:aligned sig=610cfce5529f -->
+<!-- pre-align:aligned sig=87cf043e706f -->
 
 # Server Dashboard
 
@@ -13,6 +13,8 @@ Server Dashboard helps to visualize performance metrics on a chart. The charts a
 | 30 minutes   | 6 months   |
 | 2 hours   | 2 years    |
 | 1 day    | 5 years    |
+
+<a id="server-dashboard"></a>
 
 ## Server Dashboard
 

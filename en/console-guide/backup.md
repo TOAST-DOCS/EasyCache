@@ -1,4 +1,4 @@
-<!-- pre-align:aligned sig=4afdece35cae -->
+<!-- pre-align:aligned sig=f821083285bb -->
 
 # Backup
 
@@ -8,6 +8,8 @@ You can prepare in advance to recover the cache in case of failure. You can perf
 
 !!! TIP "Note"
     Valkey creates an .rdb file when performing a backup. To restore using a created backup, it is recommended to use a cache with an engine version compatible with the backup.
+
+<a id="backup"></a>
 
 ## Backup
 
