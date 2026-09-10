@@ -1,3 +1,5 @@
+<!-- machine_translated: true -->
+
 <!-- pre-align:aligned sig=42b8b90f810e -->
 
 <a id="cache"></a>
@@ -431,8 +433,30 @@ Using the Remove Replication Connection function removes the replication connect
     * Performing a forced replication connection removal may result in inconsistencies with the source region's cache and master node configuration information, as this involves forcing a replication connection operation. Therefore, it is recommended only for special cases, such as a failure in the source region.
 * Read replicas in the same region as the master do not support the replication connection removal feature. (to be supported)
 
-<a id="delete-node"></a>
+<a id="block-source-region-reconnection-after-forced-replication-removal"></a>
+#### Block source region reconnection after removing the forced replication connection
 
+When you remove the forced replication connection, the operation may complete before the promotion is reflected in the cache of the source region. In this case, the following issue may occur only if the DB security group applied to the new cache has a rule that allows the source region node's IP and service port (including 0.0.0.0/0).
+
+* When the source region recovers, the source cache converts the promoted node back to a read replica node, and data stored in the new cache may be lost during this process.
+
+To prevent this, perform one of the following actions after removing the forced replication connection.
+
+* Method 1. Delete DB security group rules
+    * Delete the rules that allow access from the source region, such as the source region node's IP or 0.0.0.0/0, from the DB security group of the new cache. Do not add the rules back until you have cleaned up the source cache.
+* Method 2. Block the network path to the source region
+    1. In **Network > Network Interface > Create Network Interface**, select **Virtual IP** to create a network interface.
+    2. In **Network > Routing**, select a route table, and in the **Route** tab at the bottom, select the route rule that uses region peering as the gateway and click **Change**.
+    3. Change the gateway of the route rule selected in step 2 to the virtual IP created in step 1.
+    * After cleaning up the source cache, change the gateway back to region peering to restore communication.
+
+!!! danger "Caution"
+    * Do not bind the virtual IP port created in Method 2 to another instance.
+    * If you apply Method 2, cross-region communication that uses the affected route is also blocked.
+
+These restrictions can be lifted by deleting the source cache after the source region recovers. If you need to retain the source cache, contact customer support.
+
+<a id="delete-node"></a>
 ### Delete Node
 
 ![cache16.PNG](https://static.toastoven.net/prod_easycache/25.09.27/cache16.PNG)
