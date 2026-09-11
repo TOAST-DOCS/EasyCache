@@ -1,5 +1,7 @@
 <!-- machine_translated: true -->
 
+<!-- pre-align:aligned sig=da39a3ee5e6b -->
+
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_START.description
   messageType: MESSAGE
   text: "レプリケーション接続除去開始"
