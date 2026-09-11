@@ -51,7 +51,7 @@ You can create a cache by using the settings below:
 NHN Cloud has divided its entire system into multiple availability zones to prepare for failures caused by physical hardware issues. Each availability zone has separate storage systems, network switches, racks, and power supplies. Failures within one availability zone do not affect other availability zones, increasing the availability of the entire service. EasyCache allows you to select the availability zone of the master node, and automatically assigns the availability zones of the read replica nodes based on the selected availability zone, thereby increasing availability. There is no network usage cost incurred during network communication between nodes created across multiple availability zones.
 
 !!! danger "warning"
-    The availability zone of master nodes already created can be changed.
+    The availability zone of master nodes already created can be changed.
 
 <a id="engine-version"></a>
 #### Engine Version
@@ -75,7 +75,7 @@ The versions listed below are available:
 | 3.2.12 |  |
 
 !!! tip "notice"
-    Newly created caches no longer provide Redis, and we only serve caches that are already using Redis.
+    Newly created caches no longer provide Redis, and we only serve caches that are already using Redis.
 
 <a id="instance-flavor"></a>
 #### Instance Flavor
@@ -91,7 +91,7 @@ When creating an instance, you must select the appropriate instance flavor based
 | x1 | This flavor supports high-spec CPUs and memory. Used for services or applications that require high performance. |
 
 !!! danger "warning"
-    The instance flavor of caches and nodes already created can be changed. It is not currently available as an official feature, please contact the customer center if necessary.
+    The instance flavor of caches and nodes already created can be changed. It is not currently available as an official feature, please contact the customer center if necessary.
 
 <a id="max-memory-mb"></a>
 #### Max Memory (MB)
@@ -111,7 +111,7 @@ After the cache is completed, you can check it in the cache basic information or
 You need to select the VPC subnet to connect to the node you belong to in the cache. The instance of the Compute service connected to the same subnet can communicate without a separate floating IP and no cost for network traffic. The node basically blocks all network access, so if you want to connect, you need to apply the DB security group.
 
 !!! danger "warning"
-    The subnets of caches and nodes already created can be changed.
+    The subnets of caches and nodes already created can be changed.
 
 <a id="floating-ip"></a>
 #### Floating IP
@@ -122,18 +122,18 @@ If you are using the floating IP, the floating IP domain for the floating IP is 
 <a id="parameter-group"></a>
 #### Parameter Group
 
-The parameter group is a set of parameters on the VALKEY of the nodes in the cache. When creating a cache, you must choose one parameter group. Parameter groups can be changed freely after creation. For more information about the parameter group, please refer to the **@parameter group ** item.
+The parameter group is a set of parameters on the VALKEY of the nodes in the cache. When creating a cache, you must choose one parameter group. Parameter groups can be changed freely after creation. For more information about the parameter group, please refer to the **@parameter group** item.
 
 <a id="db-security-group"></a>
 #### DB Security Group
 
 DB security groups are used to restrict access in case of external intrusion. You can allow access to a specific port range or specified port for transmission and receiving traffic.
-You can apply multiple DB security groups at once, and please refer to the **@DB security group ** section for a detailed description of the DB security group.
+You can apply multiple DB security groups at once, and please refer to the **@DB security group** section for a detailed description of the DB security group.
 
 <a id="tls-authentication"></a>
 #### TLS Authentication
 
-NHN Cloud's **@Certificate Manager ** You can select one of the certificates stored in the service and communicate with the TLS certificate.
+NHN Cloud's **@Certificate Manager** You can select one of the certificates stored in the service and communicate with the TLS certificate.
 
 ** TLS service port **: a port for connection using TLS certificate. It is necessary to set the number to more than 10,000 and more than 12,000, unlike the service port.
 ** ** TLS service port only **: TLS service can be used to connect. If you activate this feature, you cannot access it using a common service port.
@@ -141,17 +141,17 @@ NHN Cloud's **@Certificate Manager ** You can select one of the certificates sto
 * VALKEY requires both public, secret key, and CA public keys. Therefore, the certificate to be used should include all the keys, and for how to generate the key, refer to the [Certificate Manager> Troubleshooting Guide] (https://docs.nhncloud.com/en/manage/certificate%20Manager/en/troubleshooting-guide/).
 
 !!! danger "warning"
-    If you decide whether to use the TLS certificate at the time of the creation of a replica group, you will not be able to change it later.
+    If you decide whether to use the TLS certificate at the time of the creation of a replica group, you will not be able to change it later.
 
 <a id="backup"></a>
 #### Backup
 
-You can set the value of the cache periodically, or you can create a backup at the time you want through the console. The backup is carried out in the master, and the performance may occur during the performance. It is recommended to back up at a time when the service load is low in order not to affect the service. The backup file is stored in the internal backup storage and is charged according to the backup capacity. In order to prepare for unexpected failure, it is recommended to set up a backup periodically. For more information about the backup, please refer to the **@backup ** item.
+You can set the value of the cache periodically, or you can create a backup at the time you want through the console. The backup is carried out in the master, and the performance may occur during the performance. It is recommended to back up at a time when the service load is low in order not to affect the service. The backup file is stored in the internal backup storage and is charged according to the backup capacity. In order to prepare for unexpected failure, it is recommended to set up a backup periodically. For more information about the backup, please refer to the **@backup** item.
 
 <a id="default-notifications"></a>
 #### Default Notifications
 
-You can set up a default notification when creating a cache. If you set the default notification, a new notification group is created under the name {Cash Name} -DEFAULT, and the following notification items are automatically set. Notification groups created with Default Notifications can be freely modified or deleted. For more information about the notification group, please refer to the **@notification group ** item.
+You can set up a default notification when creating a cache. If you set the default notification, a new notification group is created under the name {Cash Name} -DEFAULT, and the following notification items are automatically set. Notification groups created with Default Notifications can be freely modified or deleted. For more information about the notification group, please refer to the **@notification group** item.
 
 The monitoring settings for the default notification group are as follows:
 
@@ -282,8 +282,8 @@ The Users tab of a node allows you to create, view, edit, and delete users in Va
 ➍: when you click **Save** in the settings file, the user information currently stored in Valkey memory will be recorded to the settings file, so that the user settings will be maintained even after restarting.
 
 !!! danger "warning"
-    * User settings are information set per node and are not propagated to other nodes belonging to the same cache. Therefore, if you have different user settings for each node, failover may not proceed properly, so be careful.
-    * Please note that user information created on the node may be lost due to reasons such as cache restart before being saved to the configuration file.
+    * User settings are information set per node and are not propagated to other nodes belonging to the same cache. Therefore, if you have different user settings for each node, failover may not proceed properly, so be careful.
+    * Please note that user information created on the node may be lost due to reasons such as cache restart before being saved to the configuration file.
 
 <a id="modify-cache"></a>
 ### Modify Cache { #modify-cache }
