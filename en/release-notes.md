@@ -105,9 +105,18 @@
 <a id="feature-updates-5"></a>
 #### Feature Updates
 
-- Fixed an issue where a "Could not find the tenant resource" error message was displayed for a short time immediately after service activation
-- Fixed an issue where emails were not sent when restarting EasyCache for hypervisor maintenance
-- Fixed an issue where restarting EasyCache for hypervisor maintenance failed under certain conditions
+- Redesigned the console interface.
+- Updated and enhanced existing features.
+    - The changes are as follows:
+
+  | Before | After |
+    | --- | --- |
+  | Replication group | Cache |
+  | Profile settings | Parameter Group |
+  | Access control feature | DB Security Group |
+  | Alarm feature | Notification group and User Group |
+
+- Improved the backup and event features.
 
 <a id="july-29-2025"></a>
 ### July 29, 2025 { #july-29-2025 }
