@@ -1,25 +1,27 @@
+<!-- machine_translated: true -->
+
 <!-- pre-align:aligned sig=da39a3ee5e6b -->
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_START.description
   messageType: MESSAGE
-  text: "복제 연결 제거 시작"
+  text: "レプリケーション接続除去開始"
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_END.description
   messageType: MESSAGE
-  text: "복제 연결 제거 완료"
+  text: "レプリケーション接続除去完了"
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_FAILED.description
   messageType: MESSAGE
-  text: "복제 연결 제거 실패"
+  text: "レプリケーション接続除去失敗"
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_FORCIBLY_START.description
   messageType: MESSAGE
-  text: "강제 복제 연결 제거 시작"
+  text: "強制レプリケーション接続除去開始"
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_FORCIBLY_END.description
   messageType: MESSAGE
-  text: "강제 복제 연결 제거 완료"
+  text: "強制レプリケーション接続除去完了"
 
 - messageId: event.code.NODE_UNLINK_AND_PROMOTE_FORCIBLY_FAILED.description
   messageType: MESSAGE
-  text: "강제 복제 연결 제거 실패"
+  text: "強制レプリケーション接続除去失敗"
