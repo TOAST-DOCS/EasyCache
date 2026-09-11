@@ -88,7 +88,7 @@ By adding a replica node to the standalone master node, high availability is aut
 
 ![rep_ha_error_001.PNG](https://static.toastoven.net/prod_easycache/20.07.09/rep_ha_error_001.PNG)
 
-* If HA settings fails to update when adding 2 replica node, click the **Update HA** button in **Replication Group > Basic Information ** to update the HA settings again.
+* If HA settings fails to update when adding 2 replica node, click the **Update HA** button in **Replication Group > Basic Information** to update the HA settings again.
 
 * With a failover, the existing master node in which error occurred is suspended. When the failed node is deleted, it is changed into a general standalone master node in which high availability is not enabled. 
 * By adding a replica node to the standalone master node, high availability can be newly specified. 
