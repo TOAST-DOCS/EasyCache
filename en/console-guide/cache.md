@@ -419,7 +419,7 @@ To prevent this, perform one of the following actions after removing the forced 
     * Do not bind the virtual IP port created in Method 2 to another instance.
     * If you apply Method 2, cross-region communication that uses the affected route is also blocked.
 
-These restrictions can be lifted by deleting the source cache after the source region recovers. If you need to retain the source cache, contact customer support.
+These restrictions can be lifted by deleting the source cache after the source region recovers. If you need to retain the source cache, contact the customer center.
 
 <a id="delete-node"></a>
 ### Delete Node { #delete-node }
