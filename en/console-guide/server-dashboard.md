@@ -18,7 +18,17 @@ Server Dashboard helps to visualize performance metrics on a chart. The charts a
 
 ## Server Dashboard
 
-<!-- TODO: translate body -->
+**Database > EasyCache > Console User Guide > Server Dashboard**
+
+Server Dashboard helps to visualize performance metrics on a chart. The charts are arranged according to a preset layout. Metrics are collected at every minute and retained for up to 5 years. Metric data are collected by the average of 5 minutes, 30 minutes, 2 hours, or 1 day. Each collecting unit provides a different retention period like below:
+
+| Collecting Unit | Retention Period |
+|-------|-------|
+| 1 minute | 7 days |
+| 5 minutes | 1 month |
+| 30 minutes | 6 months |
+| 2 hours | 2 years |
+| 1 day | 5 years |
 
 <a id="layout"></a>
 
