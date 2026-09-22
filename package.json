@@ -1,0 +1,18 @@
+{
+  "name": "easycache",
+  "version": "1.0.0",
+  "description": "콘솔 번역 메시지 번들링",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "js-yaml": "^4.1.0",
+    "minimist": "^1.2.8"
+  },
+  "scripts": {
+    "build:EASYCACHE_ALPHA": "node scripts/bundle-messages.js",
+    "build:EASYCACHE_BETA": "node scripts/bundle-messages.js",
+    "build:EASYCACHE": "node scripts/bundle-messages.js",
+    "build:all": "node scripts/bundle-messages.js --all"
+  },
+  "license": "ISC",
+  "type": "commonjs"
+}
