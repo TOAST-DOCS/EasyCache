@@ -10,7 +10,9 @@ You can receive notifications about performance metrics through notification gro
 
 ## Notification
 
-<!-- TODO: translate body -->
+**Database > EasyCache > Console User Guide > Notification**
+
+You can receive notifications about performance metrics through notification groups. Select the **Notification Type** and **Enabled** status, then specify the node to monitor and the user group to receive notifications. Set the thresholds and conditions for performance metrics to receive notifications through the **Monitoring Settings**. When the set metrics meet the conditions in the Monitoring Settings, the associated user group will be notified. Notifications are sent via SMS or email, depending on the notification type set for the notification group.
 
 <a id="create-a-notification-group"></a>
 
