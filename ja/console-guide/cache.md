@@ -138,7 +138,7 @@ NHN Cloudの**@Certificate Manager**サービスに保存された証明書の�
 * **TLSサービスポート**: TLS証明書を使用した接続用ポートです。10000以上、12000以下の数字でサービスポートとは異なる設定にする必要があります。
 * **TLSサービスポートのみ使用**: TLSサービスポートのみを使用して接続するように設定できます。この機能を有効にする場合、一般サービスポートを使用して接続できません。
 * **証明書選択**: Certificate Managerサービスに保存されたTLS証明書の中から1つを選択できます。Certificate ManagerサービスのAppkeyを入力する必要があります。
-* Valkeyは公開鍵、秘密鍵及びCA公開鍵を全て必要とします。したがって、使用する証明書には該当するキーが全て含まれている必要があり、該当キーを作成する方法は[Certificate Manager > トラブルシューティングガイド](https://docs.nhncloud.com/ko/Management/Certificate%20Manager/ko/troubleshooting-guide/)を参照してください。
+* Valkeyは公開鍵、秘密鍵及びCA公開鍵を全て必要とします。したがって、使用する証明書には該当するキーが全て含まれている必要があり、該当キーを作成する方法は[Certificate Manager > トラブルシューティングガイド](/Management/Certificate%20Manager/ja/troubleshooting-guide/)を参照してください。
 
 !!! danger "注意"
     レプリケーショングループ作成時点でTLS証明書使用有無を決定すると、後から変更できません。
