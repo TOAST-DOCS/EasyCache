@@ -121,12 +121,12 @@
 <a id="july-29-2025"></a>
 ### July 29, 2025 { #july-29-2025 }
 
-<!-- TODO: translate body -->
-
 <a id="bug-fixes-4"></a>
 #### Bug Fixes
 
-<!-- TODO: translate body -->
+- Fixed a bug where the error message "Could not find the tenant resource." was displayed for a short time immediately after activating the service.
+- Fixed a bug where email notifications for EasyCache restarts caused by hypervisor inspection were not sent.
+- Fixed a bug where EasyCache restarts caused by hypervisor inspection failed under certain conditions.
 
 <a id="april-29-2025"></a>
 ### April 29, 2025 { #april-29-2025 }
@@ -360,12 +360,10 @@
 <a id="october-11-2022"></a>
 ### October 11, 2022 { #october-11-2022 }
 
-- Changed the domain for replication groups to connect from easycache.cloud.toast.com to easycache.nhncloudservice.com
-
 <a id="feature-updates-17"></a>
 #### Feature Updates
 
-<!-- TODO: translate body -->
+- Changed the domain for replication groups to connect from easycache.cloud.toast.com to easycache.nhncloudservice.com
 
 <a id="february-22-2022"></a>
 ### February 22, 2022 { #february-22-2022 }

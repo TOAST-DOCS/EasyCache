@@ -1,19 +1,15 @@
 <!-- pre-align:aligned sig=f821083285bb -->
 
-# Backup
-
-**Database > EasyCache > Console User Guide > Backup**
-
-You can prepare in advance to recover the cache in case of failure. You can perform backups through the web console whenever necessary, and you can configure it to perform backups periodically. During backup, the cache performance on which the backup runs may degrade. To avoid affecting service, it is better to perform backups when the service is under low load. If you do not want the backup to degrade performance, you can use a high-availability configuration.
-
-!!! TIP "Note"
-    Valkey creates an .rdb file when performing a backup. To restore using a created backup, it is recommended to use a cache with an engine version compatible with the backup.
-
 <a id="backup"></a>
 
 ## Backup
 
-<!-- TODO: translate body -->
+**Database > EasyCache > Console User Guide > Backup**
+
+You can prepare in advance to recover the cache in case of failure. You can perform backups through the Console whenever necessary, and you can configure it to perform backups periodically. During backup, the cache performance on which the backup runs may degrade. To avoid affecting service, it is better to perform backups when the service is under low load. If you do not want the backup to degrade performance, you can use a high-availability configuration.
+
+!!! tip "Note"
+    Valkey creates an .rdb file when performing a backup. To restore using a created backup, it is recommended to use a cache with an engine version compatible with the backup.
 
 <a id="backup-type"></a>
 

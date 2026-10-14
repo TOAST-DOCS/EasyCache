@@ -1,6 +1,8 @@
 <!-- pre-align:aligned sig=a158e62f87ee -->
 
-# DB Security Group
+<a id="db-security-group"></a>
+
+## DB Security Group
 
 **Database > EasyCache > Console User Guide > DB Security Group**
 
@@ -14,13 +16,7 @@ Traffic with mismatched session states may be blocked.
 
 DB Security Group consists of a name, a description, and multiple DB security rules. The name of DB Security Group has the following constraints:
 
-* DB Security Group names can only contain between 1 and 100 uppercase and lowercase English letters, numbers, and certain symbols (-, \_, .). The first character must be an English letter.
-
-<a id="db-security-group"></a>
-
-## DB Security Group
-
-<!-- TODO: translate body -->
+* DB Security Group names can only contain between 1 and 100 uppercase and lowercase English letters, numbers, and certain symbols (-, _, .). The first character must be an English letter.
 
 <a id="apply-db-security-group"></a>
 
