@@ -1,21 +1,5 @@
 <!-- pre-align:aligned sig=a158e62f87ee -->
 
-# DB Security Group
-
-**Database > EasyCache > Console User Guide > DB Security Group**
-
-DB Security Group is used to protect caches and nodes by collectively controlling inbound and outbound traffic of nodes belonging to a cache. A positive security model is used, which allows traffic specified by rules and blocks all other traffic. If a DB Security Group is not attached to a cache, all inbound and outbound traffic is blocked. Even if a DB Security Group is created, its rules are not applied unless it is attached to a cache. Multiple DB Security Groups can be applied to a cache. The main features of DB Security Group are as follows:
-
-* Because DB Security Group operates in a stateful manner, sessions established by a DB security rule are allowed even if there is no rule in the opposite direction.
-* For example, if the first packet of TCP 3306 destined for a node passes through according to the "Inbound TCP PORT 3306" rule, packets sent from the node using TCP port 3306 as the source are not blocked.
-* However, if no packets matching the rule arrive for a certain period of time and the session expires, packets in the opposite direction are also blocked.
-* Specifying a range for DB security rules is more efficient than adding them one by one. Increasing the number of DB security rules may cause performance degradation.
-Traffic with mismatched session states may be blocked.
-
-DB Security Group consists of a name, a description, and multiple DB security rules. The name of DB Security Group has the following constraints:
-
-* DB Security Group names can only contain between 1 and 100 uppercase and lowercase English letters, numbers, and certain symbols (-, \_, .). The first character must be an English letter.
-
 <a id="db-security-group"></a>
 
 ## DB Security Group
