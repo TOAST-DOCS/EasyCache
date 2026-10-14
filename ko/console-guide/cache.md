@@ -136,7 +136,7 @@ NHN Cloud의 **@Certificate Manager** 서비스에 저장된 인증서 중 하�
 * **TLS 서비스 포트**: TLS 인증서를 사용한 접속용 포트입니다. 10000 이상, 12000 이하의 숫자로 서비스 포트와 다르게 설정해야 합니다.
 * **TLS 서비스 포트만 사용**: TLS 서비스 포트만 사용하여 접속하도록 설정할 수 있습니다. 이 기능을 활성화할 경우 일반 서비스 포트를 사용해 접속할 수 없습니다.
 * **인증서 선택**: Certificate Manager 서비스에 저장된 TLS 인증서 중 하나를 선택할 수 있습니다. Certificate Manager 서비스의 Appkey를 입력해야 합니다.
-* Valkey는 공개 키, 비밀 키 및 CA 공개 키를 모두 필요로 합니다. 따라서 사용할 인증서에는 해당 키가 모두 포함되어야 하며, 해당 키를 생성하는 방법은 [Certificate Manager > 문제 해결 가이드](https://docs.nhncloud.com/ko/Management/Certificate%20Manager/ko/troubleshooting-guide/)를 참조하세요.
+* Valkey는 공개 키, 비밀 키 및 CA 공개 키를 모두 필요로 합니다. 따라서 사용할 인증서에는 해당 키가 모두 포함되어야 하며, 해당 키를 생성하는 방법은 [Certificate Manager > 문제 해결 가이드](/Management/Certificate%20Manager/ko/troubleshooting-guide/)를 참조하세요.
 
 !!! danger "주의"
     복제 그룹 생성 시점에 TLS 인증서 사용 여부를 결정하면 이후에 변경할 수 없습니다.
