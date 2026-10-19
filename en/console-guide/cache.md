@@ -133,12 +133,12 @@ You can apply multiple DB security groups at once, and please refer to the **@DB
 <a id="tls-authentication"></a>
 #### TLS Authentication
 
-NHN Cloud's **@Certificate Manager** You can select one of the certificates stored in the service and communicate with the TLS certificate.
+You can select one of the certificates stored in NHN Cloud's **@Certificate Manager** service and communicate using the TLS certificate.
 
-** TLS service port **: a port for connection using TLS certificate. It is necessary to set the number to more than 10,000 and more than 12,000, unlike the service port.
-** ** TLS service port only **: TLS service can be used to connect. If you activate this feature, you cannot access it using a common service port.
-*** Select certificate **: you can choose one of the TLS certificates stored in the Certificate Manager service. You need to enter the Appkey of the Certificate Manager service.
-* VALKEY requires both public, secret key, and CA public keys. Therefore, the certificate to be used should include all the keys, and for how to generate the key, refer to the [Certificate Manager> Troubleshooting Guide] (https://docs.nhncloud.com/en/manage/certificate%20Manager/en/troubleshooting-guide/).
+* **TLS Service Port**: A port for connections using the TLS certificate. It must be set to a number between 10000 and 12000, different from the service port.
+* **Use TLS Service Port Only**: You can configure connections to use only the TLS service port. If you enable this feature, you cannot connect using the regular service port.
+* **Select Certificate**: You can select one of the TLS certificates stored in the Certificate Manager service. You must enter the Appkey of the Certificate Manager service.
+* Valkey requires the public key, the secret key, and the CA public key. Therefore, the certificate to be used must include all of these keys. For how to generate the keys, see [Certificate Manager > Troubleshooting Guide](/Management/Certificate%20Manager/en/troubleshooting-guide/).
 
 !!! danger "warning"
     If you decide whether to use the TLS certificate at the time of the creation of a replica group, you will not be able to change it later.
