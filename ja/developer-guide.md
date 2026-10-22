@@ -20,12 +20,13 @@
     * jedis-2.9.0.jar
     * commons-pool2-2.4.2.jar
 * 接続コード
- ```
+
+```
  public static void main( String[] args ) {
     Jedis jedis = new Jedis("localhost", 6379);
     jedis.set("foo", "bar");
 }
- ```
+```
  
 <a id="php"></a>
 
